@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='logo_unison.png') }}" alt="Logo de la Universidad" width="150">
+    </header>
+    <h1>Bienvenido a la Página de Inicio</h1>
+    <nav>
+        <ul>
+            <li><a href="/area">Áreas</a></li>
+            <li><a href="/catalogos">Catálogos</a></li>
+            <li><a href="/explorar">Explorar</a></li>
+            <li><a href="/busqueda">Buscar</a></li>
+            <li><a href="/creditos">Créditos</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
