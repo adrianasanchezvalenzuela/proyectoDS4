@@ -15,30 +15,33 @@ def agregar_valor(diccionario, titulo, tipo, valor):
     if valor not in diccionario[titulo][tipo]:
         diccionario[titulo][tipo].append(valor)
 
-# Procesar áreas
 for archivo in os.listdir(areas_folder):
     if archivo.endswith(".csv"):
-        area = os.path.splitext(archivo)[0].upper()
-        with open(os.path.join(areas_folder, archivo), "r", encoding="utf-8") as f:
+        area = os.path.splitext(archivo)[0].upper().replace(" RADGRIDEXPORT", "")
+        with open(os.path.join(areas_folder, archivo), "r", encoding="latin-1") as f:
+            next(f) 
             for linea in f:
                 titulo = linea.strip().lower()
                 if titulo:
                     agregar_valor(revistas, titulo, "areas", area)
 
-# Procesar catálogos
+
 for archivo in os.listdir(catalogos_folder):
     if archivo.endswith(".csv"):
-        catalogo = os.path.splitext(archivo)[0].upper()
-        with open(os.path.join(catalogos_folder, archivo), "r", encoding="utf-8") as f:
+        catalogo = os.path.splitext(archivo)[0].upper().replace("_RADGRIDEXPORT", "")
+        with open(os.path.join(catalogos_folder, archivo), "r", encoding="latin-1") as f:
+            next(f)
             for linea in f:
                 titulo = linea.strip().lower()
                 if titulo:
                     agregar_valor(revistas, titulo, "catalogos", catalogo)
 
-# Guardar JSON
-os.makedirs(output_folder, exist_ok=True)
+
 with open(output_file, "w", encoding="utf-8") as f:
     json.dump(revistas, f, indent=4, ensure_ascii=False)
 
-print("Archivo JSON generado exitosamente.")
 
+with open(output_file, "r", encoding="utf-8") as f:
+    data = json.load(f)
+    print("JSON cargado exitosamente.")
+    
