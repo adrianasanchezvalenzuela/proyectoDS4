@@ -110,3 +110,9 @@ def scrapear_revistas(json_entrada, json_salida):
             print(f"No se pudo obtener info para {nombre}")
 
     print("Scrapeo finalizado.")
+
+if __name__ == '__main__':
+    path_entrada = 'data/json/revistas.json'        # Ruta al JSON con nombres de revistas (parte 1)
+    path_salida = 'data/json/detalles_revistas.json'  # Ruta donde se guardará la info scrapeada
+
+    scrapear_revistas(path_entrada, path_salida)
