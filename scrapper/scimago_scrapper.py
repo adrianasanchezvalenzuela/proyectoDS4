@@ -39,11 +39,13 @@ def obtener_url_revista(nombre_revista):
     url = construir_url(nombre_revista)
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'html.parser')
-    
-    enlace = soup.select_one("a[href*='journals/']")
+
+    # Selector actualizado: busca dentro de .search_results
+    enlace = soup.select_one(".search_results a[href*='journals/']")
     if enlace:
         return 'https://www.scimagojr.com/' + enlace['href']
-    return None  # Si no encontró nada, devuelve None
+    return None
+
 
 def get_texto(soup, selector):
     el = soup.select_one(selector)
@@ -68,32 +70,58 @@ def extraer_info_revista(url):
 
     return info
 
-# Funcion principal
+# Función principal
 def main():
-    revistas = cargar_revistas(ENTRADA_JSON)  
-    resultados = cargar_datos_existentes(SALIDA_JSON)  
+    revistas = cargar_revistas(ENTRADA_JSON)
+    resultados = cargar_datos_existentes(SALIDA_JSON)
 
     for nombre in revistas:
         if nombre in resultados:
-            continue  
+            continue
+
+        # Capitalizar título
+        nombre_formateado = ' '.join([palabra.capitalize() for palabra in nombre.split()])
 
         try:
-            print(f"Procesando: {nombre}")
-            url_revista = obtener_url_revista(nombre)
+            print(f"Buscando: {nombre_formateado}")
+            url_revista = obtener_url_revista(nombre_formateado)
+
             if not url_revista:
-                print(f"No se encontro la URL para {nombre}")
-                continue  
+                print(f"No se encontró URL para: '{nombre_formateado}' (original: '{nombre}')")
+                continue
 
             info = extraer_info_revista(url_revista)
             resultados[nombre] = info
-            time.sleep(1) 
 
-        # Manejo de errores
+            time.sleep(1)
+
         except Exception as e:
-            print(f"ERROR {nombre}: {e}")  
+            print(f"ERROR {nombre}: {e}")
 
-    guardar_resultados(resultados, SALIDA_JSON)  
+    guardar_resultados(resultados, SALIDA_JSON)
     print(f"Datos guardados en {SALIDA_JSON}")
 
+
+
+
+# Prueba
+def prueba_individual(nombre_original):
+    nombre_formateado = ' '.join([palabra.capitalize() for palabra in nombre_original.split()])
+    print(f"\nBuscando: {nombre_formateado}")
+
+    url = obtener_url_revista(nombre_formateado)
+    if not url:
+        print(f"No se encontró URL para: {nombre_formateado}")
+        return
+
+    print(f"URL encontrada: {url}")
+    info = extraer_info_revista(url)
+    print(f"Información extraída para '{nombre_original}':\n")
+    for k, v in info.items():
+        print(f"  {k}: {v}")
+
 if __name__ == '__main__':
-    main()
+    #main()
+    prueba_individual("acta geophysica")
+    prueba_individual("2d materials")
+
