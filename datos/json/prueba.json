@@ -1,0 +1,20 @@
+{
+  "nature biotechnology": {
+        "areas": [
+            "CIENCIAS_BIO",
+            "ING"
+        ],
+        "catalogos": [
+            "JCR",
+            "SCOPUS"
+        ]
+    },
+  "3 biotech": {
+    "areas": [
+      "CIENCIAS_BIO"
+    ],
+    "catalogos": [
+      "JCR"
+    ]
+  }
+}
