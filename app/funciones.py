@@ -134,6 +134,53 @@ class Revista:
                 titulos_por_area[codigo] = set()
 
         return titulos_por_area
+    
+    @staticmethod
+    def imprimir_revistas_por_area(revistas: List["Revista"], titulos_por_area: Dict[str, Set[str]]):
+        """Imprime las revistas clasificadas por área"""
+        print("\n=== REVISTAS AGRUPADAS POR ÁREA ===\n")
+
+        for area, titulos_area in titulos_por_area.items():
+            print(f"\nÁrea: {area.upper()}")
+            print("-" * 60)
+            encontradas = 0
+
+            for revista in revistas:
+                if revista.titulo.strip().lower() in titulos_area:
+                    print(revista)
+                    print("-" * 60)
+                    encontradas += 1
+
+            if encontradas == 0:
+                print("No se encontraron revistas para esta área.")
+
+
+
+
+class SistemaRevistas:
+    def __init__(self):
+        self.revistas = []
+        self.titulos_por_area = {}
+        self.usuarios: List[Usuario] = []  # Solo si los usas
+        self.usuario_actual: Usuario | None = None  # Opcional
+
+    def cargar_datos(self, json_path: str, carpeta_csv: str):
+        self.revistas = Revista.cargar_revistas_desde_json(json_path)
+        self.titulos_por_area = Revista.cargar_titulos_por_area(carpeta_csv)
+
+    def obtener_revistas_por_area(self, area: str) -> List[Revista]:
+        titulos = self.titulos_por_area.get(area, set())
+        return [r for r in self.revistas if r.titulo.strip().lower() in titulos]
+
+    def buscar_revistas(self, query: str) -> List[Revista]:
+        query = query.lower()
+        return [r for r in self.revistas if query in r.titulo.lower()]
+    
+    def obtener_revista_por_id(self, id_revista: int) -> Revista | None:
+        for revista in self.revistas:
+            if revista.id_revista == id_revista:
+                return revista
+        return None
 
 
 def main():
@@ -159,6 +206,9 @@ def main():
         for titulo in list(titulos)[:5]:  # Puedes ajustar este número
             print(f"  - {titulo}")
     print("-" * 50)
+    Revista.imprimir_revistas_por_area(revistas, titulos_por_area)
+
+
 
 
 if __name__ == "__main__":

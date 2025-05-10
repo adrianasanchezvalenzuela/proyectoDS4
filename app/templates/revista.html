@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ revista.titulo }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+        .revista-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .dato {
+            margin-bottom: 0.8rem;
+        }
+        .etiqueta {
+            font-weight: bold;
+            color: #333;
+        }
+        .areas {
+            margin-top: 1rem;
+        }
+        .areas span {
+            display: inline-block;
+            background: #e0e0e0;
+            border-radius: 5px;
+            padding: 0.3rem 0.6rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+        a {
+            color: #0077cc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="revista-container">
+    <h1>{{ revista.titulo }}</h1>
+
+    <div class="dato"><span class="etiqueta">ID:</span> {{ revista.id_revista }}</div>
+    <div class="dato"><span class="etiqueta">ISSN:</span> {{ revista.issn }}</div>
+    <div class="dato"><span class="etiqueta">Editor:</span> {{ revista.editor }}</div>
+    <div class="dato"><span class="etiqueta">Tipo de publicación:</span> {{ revista.tipo_publicacion }}</div>
+    <div class="dato"><span class="etiqueta">H-Index:</span> {{ revista.h_index }}</div>
+    <div class="dato"><span class="etiqueta">Descripción:</span> {{ revista.descripcion }}</div>
+    <div class="dato"><span class="etiqueta">Sitio Web:</span> <a href="{{ revista.url }}" target="_blank">{{ revista.url }}</a></div>
+
+    <div class="areas">
+        <span class="etiqueta">Áreas:</span><br>
+        {% for area in revista.areas %}
+            <span>{{ area }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

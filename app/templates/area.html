@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Áreas de Conocimiento{% endblock %}
@@ -102,10 +103,15 @@
                     </div>
                     <h3 class="h4 card-title text-unison">Artes</h3>
                     <p class="card-text">Artes visuales, música, teatro y diseño.</p>
-                    <a href="/explorar?area=artes" class="btn btn-unison btn-sm mt-3">
-                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
-                    </a>
-                </div>
+                    <a href="{{ url_for('area_detalles', area='human_y_art') }}" class="btn btn-unison btn-sm mt-3">
+    Ver Detalles <i class="bi bi-arrow-right ms-2"></i>
+</a>
+
+
+
+
+
+
             </div>
         </div>
     </div>
