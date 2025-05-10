@@ -1,12 +1,25 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogos</title>
-</head>
-<body>
-    <h1>Página de Catálogos</h1>
-    <a href="/">Volver al inicio</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Catálogos de Revistas{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">Catálogos Disponibles</h1>
+    
+    <div class="row">
+        {% for catalogo in ['Q1', 'Q2', 'SCIE', 'SSCI', 'Revistas UNISON', 'Nacionales'] %}
+        <div class="col-md-6 mb-4">
+            <div class="card card-unison h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Catálogo {{ catalogo }}</h5>
+                    <p class="card-text">Revistas indexadas en {{ catalogo }}</p>
+                    <a href="/catalogo/{{ catalogo|lower }}" class="btn btn-unison">
+                        Ver Revistas <span class="badge bg-secondary">{{ range(10, 50)|random }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

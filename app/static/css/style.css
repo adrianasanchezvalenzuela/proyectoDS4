@@ -370,3 +370,83 @@ a:hover {
 .table-unison tbody tr:hover {
     background-color: rgba(2, 104, 231, 0.05) !important;
 }
+
+/* Estilos para el explorar */
+  /* Estilos para el abecedario compacto */
+  .alphabet-container {
+    background-color: rgba(2, 104, 231, 0.08);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 2px solid rgba(2, 104, 231, 0.15);
+        box-shadow: 0 6px 12px rgba(2, 104, 231, 0.1);
+        margin-bottom: 3rem !important;
+}
+
+.alphabet-grid {
+     display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(53px, 1fr));
+        gap: 13px;
+        margin: 0 auto;
+        max-width: 900px;
+}
+
+.alphabet-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    background-color: white;
+    color: var(--azul-unison);
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 2px solid var(--azul-unison);
+}
+
+.alphabet-letter:hover {
+    background-color: var(--azul-unison);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(2, 104, 231, 0.2);
+}
+
+.alphabet-letter.active {
+    background-color: var(--dorado-unison);
+    color: var(--azul-unison);
+    border-color: var(--dorado-unison);
+    font-weight: 700;
+}
+
+.letra-actual-badge {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: var(--azul-unison);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Mantenemos los estilos anteriores de la tabla */
+.table-unison th {
+    background-color: var(--azul-unison) !important;
+    color: white !important;
+}
+
+.table-unison tbody tr:hover {
+    background-color: rgba(2, 104, 231, 0.05) !important;
+}
+
+@media (max-width: 576px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+    }
+    .alphabet-letter {
+        height: 32px;
+        font-size: 0.9rem;
+    }
+}

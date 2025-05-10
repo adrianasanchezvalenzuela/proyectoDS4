@@ -1,12 +1,43 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explorar</title>
-</head>
-<body>
-    <h1>Página de Explorar</h1>
-    <a href="/">Volver al inicio</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Explorar Revistas{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-unison">Explorar Revistas</h1>
+    
+    <!-- Abecedario compacto -->
+    <div class="alphabet-container mb-5">
+        <h5 class="mb-3 text-unison">Selecciona una letra:</h5>
+        <div class="alphabet-grid">
+            {% for letra in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' %}
+            <a href="/explorar/{{ letra }}" 
+               class="alphabet-letter {% if letra_actual == letra %}active{% endif %}">
+                {{ letra }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if letra_actual %}
+    <!-- Resultados por letra -->
+    <div class="journal-results">
+        <div class="d-flex align-items-center mb-4">
+            <h3 class="mb-0 me-3">Revistas con la letra:</h3>
+            <span class="letra-actual-badge">{{ letra_actual }}</span>
+        </div>
+        
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-unison mb-0">
+                        <!-- Resto de la tabla igual que antes -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
