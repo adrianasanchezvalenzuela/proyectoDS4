@@ -329,3 +329,44 @@ a:hover {
         background: linear-gradient(0deg, rgba(255,210,0,0.1) 0%, rgba(255,210,0,0) 70%);
     }
 }
+/* Estilos para la página Explorar */
+.alphabet-nav {
+    background-color: rgba(2, 104, 231, 0.05);
+    border: 1px solid rgba(2, 104, 231, 0.2);
+}
+
+.alphabet-btn {
+    width: 2.5rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.alphabet-btn:hover {
+    background-color: var(--azul-unison);
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.bg-area {
+    background-color: var(--naranja-unison);
+    color: white;
+}
+
+.bg-catalog {
+    background-color: var(--azulito-unison);
+    color: white;
+}
+
+.bg-hindex {
+    background-color: var(--dorado-unison);
+    color: var(--azul-unison);
+}
+
+.table-unison th {
+    background-color: var(--azul-unison) !important;
+    color: white !important;
+}
+
+.table-unison tbody tr:hover {
+    background-color: rgba(2, 104, 231, 0.05) !important;
+}

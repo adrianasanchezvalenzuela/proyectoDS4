@@ -1,12 +1,113 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Áreas</title>
-</head>
-<body>
-    <h1>Página de Áreas</h1>
-    <a href="/">Volver al inicio</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Áreas de Conocimiento{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-unison">Áreas de Conocimiento</h1>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icono-circulo mb-3 mx-auto">
+                        <img src="{{ url_for('static', filename='img/icono_matematicas.png') }}" 
+                             alt="Ciencias Exactas" 
+                             class="img-icono">
+                    </div>
+                    <h3 class="h4 card-title text-unison">Ciencias Exactas</h3>
+                    <p class="card-text">Revistas especializadas en matemáticas, física, química y ciencias computacionales.</p>
+                    <a href="/explorar?area=exactas" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icono-circulo mb-3 mx-auto">
+                        <img src="{{ url_for('static', filename='img/icono_sociales.png') }}" 
+                             alt="Ciencias Sociales" 
+                             class="img-icono">
+                    </div>
+                    <h3 class="h4 card-title text-unison">Ciencias Sociales</h3>
+                    <p class="card-text">Publicaciones en psicología, sociología, economía y ciencias políticas.</p>
+                    <a href="/explorar?area=sociales" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icono-circulo mb-3 mx-auto">
+                        <img src="{{ url_for('static', filename='img/icono_humanidades.png') }}" 
+                             alt="Humanidades" 
+                             class="img-icono">
+                    </div>
+                    <h3 class="h4 card-title text-unison">Humanidades</h3>
+                    <p class="card-text">Literatura, filosofía, historia y estudios culturales.</p>
+                    <a href="/explorar?area=humanidades" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icono-circulo mb-3 mx-auto">
+                        <img src="{{ url_for('static', filename='img/icono_ingenieria.png') }}" 
+                             alt="Ingenierías" 
+                             class="img-icono">
+                    </div>
+                    <h3 class="h4 card-title text-unison">Ingenierías</h3>
+                    <p class="card-text">Todas las disciplinas de ingeniería y tecnología aplicada.</p>
+                    <a href="/explorar?area=ingenierias" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icono-circulo mb-3 mx-auto">
+                        <img src="{{ url_for('static', filename='img/icono_salud.png') }}" 
+                             alt="Ciencias de la Salud" 
+                             class="img-icono">
+                    </div>
+                    <h3 class="h4 card-title text-unison">Ciencias de la Salud</h3>
+                    <p class="card-text">Medicina, enfermería, nutrición y ciencias biomédicas.</p>
+                    <a href="/explorar?area=salud" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icono-circulo mb-3 mx-auto">
+                        <img src="{{ url_for('static', filename='img/icono_artes.png') }}" 
+                             alt="Artes" 
+                             class="img-icono">
+                    </div>
+                    <h3 class="h4 card-title text-unison">Artes</h3>
+                    <p class="card-text">Artes visuales, música, teatro y diseño.</p>
+                    <a href="/explorar?area=artes" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
