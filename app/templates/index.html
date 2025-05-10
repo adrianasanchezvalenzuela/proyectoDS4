@@ -1,51 +1,108 @@
-
 {% extends "base.html" %}
 
 {% block title %}Bienvenido al Repositorio de Revistas{% endblock %}
 
 {% block body %}
-<div class="jumbotron text-center">
-    <h1 class="display-4">Bienvenido al Repositorio de Revistas Académicas</h1>
-    <p class="lead">Explora, busca y encuentra las mejores revistas científicas en diversos campos de conocimiento.</p>
-    <hr class="my-4">
-    <p>En nuestro repositorio podrás consultar revistas en diversas áreas del conocimiento, navegar por catálogos y explorar las revistas más relevantes a través de su H-index.</p>
-    <a class="btn btn-primary btn-lg" href="/explorar" role="button">Explorar Revistas</a>
-    <a class="btn btn-info btn-lg ms-2" href="/buscar" role="button">Buscar Revista</a>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Imagen de Área">
-            <div class="card-body">
-                <h5 class="card-title">Áreas</h5>
-                <p class="card-text">Consulta revistas agrupadas por áreas de conocimiento.</p>
-                <a href="/area" class="btn btn-success">Ver Áreas</a>
+<div class="container mt-5">
+    <!-- Hero Section con imagen al lado -->
+    <div class="hero-unison p-5 rounded-3 mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="display-4 fw-bold text-white">Repositorio de Revistas UNISON</h1>
+                <p class="lead text-light">Explora las mejores revistas científicas de la Universidad de Sonora</p>
+                <hr class="my-4 bg-light">
+                <p class="text-light">Accede a más de 1,200 revistas indexadas en los principales catálogos internacionales.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a class="btn btn-dorado btn-lg px-4" href="/explorar" role="button">
+                        <i class="bi bi-search me-2"></i>Explorar
+                    </a>
+                    <a class="btn btn-outline-light btn-lg px-4" href="/buscar" role="button">
+                        <i class="bi bi-journal-text me-2"></i>Buscar
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <img src="{{ url_for('static', filename='img/investigacion_unison.png') }}" 
+                     alt="Investigación UNISON" 
+                     class="img-fluid rounded shadow-lg border border-4 border-dorado">
             </div>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Imagen de Catálogos">
-            <div class="card-body">
-                <h5 class="card-title">Catálogos</h5>
-                <p class="card-text">Explora nuestras colecciones de revistas organizadas por catálogos.</p>
-                <a href="/catalogos" class="btn btn-warning">Ver Catálogos</a>
+    
+        <!-- Tarjetas con imágenes en los círculos -->
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-feature h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icono-circulo mb-3 mx-auto">
+                            <img src="{{ url_for('static', filename='img/icono_areas.png') }}" 
+                                 alt="Áreas" 
+                                 class="img-icono">
+                        </div>
+                        <h3 class="h4 card-title text-unison">Áreas</h3>
+                        <p class="card-text">Revistas clasificadas por disciplina académica.</p>
+                        <a href="/area" class="btn btn-unison btn-sm mt-3">
+                            Ver Áreas <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4">
+                <div class="card card-feature h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icono-circulo mb-3 mx-auto">
+                            <img src="{{ url_for('static', filename='img/icono_catalogos.png') }}" 
+                                 alt="Catálogos" 
+                                 class="img-icono">
+                        </div>
+                        <h3 class="h4 card-title text-unison">Catálogos</h3>
+                        <p class="card-text">Revistas organizadas por índices de calidad.</p>
+                        <a href="/catalogos" class="btn btn-unison btn-sm mt-3">
+                            Ver Catálogos <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4">
+                <div class="card card-feature h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icono-circulo mb-3 mx-auto">
+                            <img src="{{ url_for('static', filename='img/icono_creditos.png') }}" 
+                                 alt="Créditos" 
+                                 class="img-icono">
+                        </div>
+                        <h3 class="h4 card-title text-unison">Créditos</h3>
+                        <p class="card-text">Conoce al equipo desarrollador.</p>
+                        <a href="/creditos" class="btn btn-unison btn-sm mt-3">
+                            Ver Equipo <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Imagen de Créditos">
-            <div class="card-body">
-                <h5 class="card-title">Créditos</h5>
-                <p class="card-text">Conoce a los desarrolladores de este repositorio de revistas.</p>
-                <a href="/creditos" class="btn btn-secondary">Ver Créditos</a>
+    <!-- Sección de estadísticas -->
+    <div class="stats-section mt-5 p-4 rounded-3 shadow">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <h2 class="display-5 fw-bold text-unison">1,200+</h2>
+                <p class="mb-0">Revistas indexadas</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="display-5 fw-bold text-unison">25+</h2>
+                <p class="mb-0">Áreas de conocimiento</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="display-5 fw-bold text-unison">15+</h2>
+                <p class="mb-0">Catálogos internacionales</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="display-5 fw-bold text-unison">24/7</h2>
+                <p class="mb-0">Disponibilidad</p>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-

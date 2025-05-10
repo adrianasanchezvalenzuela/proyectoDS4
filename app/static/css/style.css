@@ -1,6 +1,6 @@
 /* COLORES INSTITUCIONALES */
 :root {
-    --azul-unison: #0268e7;
+    --azul-unison: #003366;
     --naranja-unison: #d26f28;
     --azulito-unison: #02c9d2;
     --dorado-unison: #ffd200;
@@ -241,4 +241,91 @@ a:hover {
 .nav-menu a:hover {
     color: white;
     background-color: #c8102e; /* Rojo UNISON */
+}
+
+/* ===== ESTILOS UNISON OPTIMIZADOS ===== */
+
+/* Hero Section - Cabecera principal */
+.hero-unison {
+    background-color: var(--azul-unison);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-unison::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    background: linear-gradient(160deg, rgba(255,210,0,0.1) 0%, rgba(255,210,0,0) 70%);
+}
+
+/* Botones */
+.btn-dorado {
+    background-color: var(--dorado-unison);
+    color: var(--azul-unison);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-dorado:hover {
+    background-color: #e6b800;
+    transform: translateY(-2px);
+}
+
+/* Tarjetas con iconos */
+.card-feature {
+    transition: all 0.3s ease;
+    border-top: 3px solid var(--dorado-unison);
+}
+
+.card-feature:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.icono-circulo {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: 2px solid var(--dorado-unison);
+    transition: inherit;
+}
+
+.card-feature:hover .icono-circulo {
+    transform: scale(1.1);
+}
+
+.img-icono {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Sección de estadísticas */
+.stats-section {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--dorado-unison);
+}
+
+.stats-section p {
+    color: var(--naranja-unison);
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-unison::before {
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(0deg, rgba(255,210,0,0.1) 0%, rgba(255,210,0,0) 70%);
+    }
 }
