@@ -1,13 +1,71 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Búsqueda</title>
-</head>
-<body>
-    <h1>Resultados de la Búsqueda</h1>
-    <p>Buscando: {{ query }}</p>
-    <a href="/">Volver al inicio</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Resultados de Búsqueda{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-unison">Resultados de Búsqueda</h1>
+    
+    <div class="search-results-container mb-5">
+        <div class="search-header bg-unison text-white p-4 rounded-top">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-0">Mostrando resultados para: <strong>"{{ query }}"</strong></h5>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="/buscar" class="btn btn-outline-light btn-sm">Nueva Búsqueda</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm rounded-top-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-unison mb-0">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Área(s)</th>
+                                <th>Catálogo(s)</th>
+                                <th>H-Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if revistas %}
+                                {% for revista in revistas %}
+                                <tr>
+                                    <td>
+                                        <a href="/revista/{{ revista.id }}" class="text-unison fw-bold">{{ revista.titulo }}</a>
+                                    </td>
+                                    <td>
+                                        {% for area in revista.areas %}
+                                        <a href="/area/{{ area|lower|replace(' ', '-') }}" class="badge bg-area me-1">{{ area }}</a>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for catalogo in revista.catalogos %}
+                                        <a href="/catalogo/{{ catalogo|lower }}" class="badge bg-catalog me-1">{{ catalogo }}</a>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-hindex">{{ revista.h_index }}</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-4">
+                                        <i class="bi bi-search fs-1 text-muted mb-3"></i>
+                                        <p class="fs-5">No se encontraron revistas que coincidan con tu búsqueda</p>
+                                        <a href="/buscar" class="btn btn-unison mt-2">Intentar de nuevo</a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

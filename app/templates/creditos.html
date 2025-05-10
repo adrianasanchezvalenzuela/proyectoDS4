@@ -1,12 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créditos</title>
-</head>
-<body>
-    <h1>Página de Créditos</h1>
-    <a href="/">Volver al inicio</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Créditos del Desarrollo{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-unison">Equipo de Desarrollo</h1>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-unison mb-0" id="creditosTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Foto</th>
+                            <th>Nombre</th>
+                            <th>Rol</th>
+                            <th>Contribución</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="{{ url_for('static', filename='img/team1.jpg') }}" 
+                                     alt="Miembro del equipo" 
+                                     class="team-photo rounded-circle">
+                            </td>
+                            <td class="fw-bold text-unison">Adriana Sánchez Valenzuela</td>
+                            <td>Desarrollador Frontend</td>
+                            <td>Diseño de interfaces, implementación CSS</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="{{ url_for('static', filename='img/team2.jpg') }}" 
+                                     alt="Miembro del equipo" 
+                                     class="team-photo rounded-circle">
+                            </td>
+                            <td class="fw-bold text-unison">Samara Acosta Ibarra</td>
+                            <td>Desarrollador Backend</td>
+                            <td>Lógica de negocio, integración de datos</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="{{ url_for('static', filename='img/team3.jpg') }}" 
+                                     alt="Miembro del equipo" 
+                                     class="team-photo rounded-circle">
+                            </td>
+                            <td class="fw-bold text-unison">Marco Antonio Quintanar Maldonado</td>
+                            <td>Diseñador UX/UI</td>
+                            <td>Experiencia de usuario, prototipado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="acknowledgement mt-5 p-4 rounded-3">
+        <h4 class="text-unison mb-3">Agradecimientos</h4>
+        <p class="mb-0">Este proyecto fue desarrollado como parte del programa de Ingeniería en Software de la Universidad de Sonora, bajo la supervisión de.</p>
+    </div>
+</div>
+{% endblock %}

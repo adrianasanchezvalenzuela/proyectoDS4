@@ -450,3 +450,157 @@ a:hover {
         font-size: 0.9rem;
     }
 }
+/* Estilos específicos para la página de búsqueda */
+.search-results-container {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-header {
+    background-color: var(--azul-unison);
+    padding: 1.25rem 1.5rem;
+}
+
+.search-header h5 {
+    font-size: 1.1rem;
+}
+
+.table-unison {
+    width: 100%;
+}
+
+.table-unison th {
+    background-color: var(--azul-unison);
+    color: white;
+    padding: 1rem;
+    font-weight: 500;
+}
+
+.table-unison td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table-unison tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-unison tbody tr:hover {
+    background-color: rgba(2, 104, 231, 0.03);
+}
+
+/* Badges de categorías */
+.bg-area {
+    background-color: var(--naranja-unison);
+    color: white;
+}
+
+.bg-catalog {
+    background-color: var(--azulito-unison);
+    color: white;
+}
+
+.bg-hindex {
+    background-color: var(--dorado-unison);
+    color: var(--azul-unison);
+    font-weight: 600;
+}
+
+/* Estado de no resultados */
+.no-results {
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.no-results i {
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-header {
+        padding: 1rem;
+    }
+    
+    .table-unison th, 
+    .table-unison td {
+        padding: 0.75rem;
+    }
+    
+    .badge {
+        margin-bottom: 0.25rem;
+        display: inline-block;
+    }
+}
+/* Estilos específicos para la página de créditos */
+#creditosTable th {
+    background-color: var(--azul-unison);
+    color: white;
+    padding: 1rem;
+    font-weight: 500;
+}
+
+#creditosTable td {
+    padding: 1.25rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#creditosTable tr:last-child td {
+    border-bottom: none;
+}
+
+#creditosTable tr:hover {
+    background-color: rgba(2, 104, 231, 0.03);
+}
+
+.team-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid var(--dorado-unison);
+}
+
+.acknowledgement {
+    background-color: rgba(2, 104, 231, 0.05);
+    border-left: 4px solid var(--dorado-unison);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #creditosTable {
+        display: block;
+    }
+    
+    #creditosTable thead {
+        display: none;
+    }
+    
+    #creditosTable tr {
+        display: block;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    #creditosTable td {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: none;
+    }
+    
+    #creditosTable td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        width: 120px;
+        color: var(--azul-unison);
+    }
+    
+    .team-photo {
+        width: 60px;
+        height: 60px;
+    }
+}

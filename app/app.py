@@ -27,6 +27,11 @@ def buscar():
     query = request.args.get('q', '')
     return render_template("busqueda.html", query=query)
 
+@app.route("/busqueda")
+def busqueda():
+    query = request.args.get('q', '')
+    return render_template("busqueda.html", query=query)
+
 @app.route("/creditos")
 def creditos():
     return render_template("creditos.html")
