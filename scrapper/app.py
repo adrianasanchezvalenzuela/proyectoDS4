@@ -1,28 +1,32 @@
 '''
-Programa principal para extarer informacion de revistas desde scimago
+Programa principal para extraer información de revistas desde SCImago, por rangos
 '''
 
+import argparse
 import time
 from unidecode import unidecode
 from scimago_scrapper import (
     cargar_revistas,
-    cargar_datos_existentes,
     guardar_resultados,
-    obtener_url_revista,
-    extraer_info_revista
+    extraer_info_revista,
+    obtener_url_revista
 )
 
-ENTRADA_JSON = 'datos/json/prueba.json'
-SALIDA_JSON = 'datos/json/prueba_info.json'
-
 def main():
-    revistas = cargar_revistas(ENTRADA_JSON)
-    resultados = cargar_datos_existentes(SALIDA_JSON)
+    parser = argparse.ArgumentParser(description="Scraper de SCImago por rangos")
+    parser.add_argument('-a', '--archivo', required=True, help='Archivo JSON de entrada')
+    parser.add_argument('-p', '--inicio', type=int, required=True, help='Índice inicial')
+    parser.add_argument('-u', '--fin', type=int, required=True, help='Índice final (no incluido)')
+    parser.add_argument('-o', '--salida', required=True, help='Archivo JSON de salida')
+    args = parser.parse_args()
 
-    for nombre in revistas:
-        if nombre in resultados:
-            continue
+    revistas = cargar_revistas(args.archivo)
+    nombres = list(revistas.keys())
+    seleccionadas = nombres[args.inicio:args.fin]
 
+    resultados = {}
+
+    for nombre in seleccionadas:
         nombre_formateado = unidecode(nombre).title()
         print(f"Buscando: {nombre_formateado}")
 
@@ -41,8 +45,8 @@ def main():
         except Exception as e:
             print(f"Error en '{nombre}': {e}")
 
-    guardar_resultados(resultados, SALIDA_JSON)
-    print(f"Datos guardados en {SALIDA_JSON}")
+    guardar_resultados(resultados, args.salida)
+    print(f"Datos guardados en {args.salida}")
 
 if __name__ == '__main__':
     main()
