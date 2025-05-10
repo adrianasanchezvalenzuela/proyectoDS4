@@ -1,0 +1,244 @@
+/* COLORES INSTITUCIONALES */
+:root {
+    --azul-unison: #0268e7;
+    --naranja-unison: #d26f28;
+    --azulito-unison: #02c9d2;
+    --dorado-unison: #ffd200;
+    --rojo-unison: #c8102e;
+    --gris-suave: #f4f4f4;
+}
+
+/* GENERAL */
+body {
+    background-color: var(--gris-suave);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #212529;
+    margin: 0;
+    padding: 0;
+}
+
+/* NAVBAR ESTILO LIMPIO */
+.navbar {
+    background-color: white !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.navbar-delgada {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+    background-color: white !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.navbar .navbar-brand {
+    color: var(--azul-unison) !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar .nav-link {
+    color: var(--azul-unison) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: var(--rojo-unison) !important;
+}
+
+/* Login nav */
+.login-nav {
+    margin: 0;
+    padding: 0;
+}
+
+/* Logo */
+.logo-unison {
+    height: 100px;
+    width: auto;
+    margin-left: 50px;
+}
+
+.logo-unison:hover {
+    transform: scale(1.05);
+}
+
+.logo-unison:hover {
+    transform: scale(1.05);
+}
+
+
+/* TITULOS */
+h1, h2, h3 {
+    color: var(--azul-unison);
+}
+
+
+/* BOTONES */
+.btn-unison {
+    background-color: var(--azul-unison);
+    color: var(--dorado-unison);
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn-unison:hover {
+    background-color: var(--rojo-unison);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* TABLAS */
+.table-unison {
+    background-color: white;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.table-unison thead {
+    background-color: var(--azul-unison);
+    color: white;
+}
+.table-unison tbody tr:hover {
+    background-color: #f0f0f0;
+}
+.table-unison td, .table-unison th {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+/* FOOTER */
+footer {
+    background-color: var(--azul-unison);
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 3rem;
+}
+
+/* BUSCADOR */
+.search-bar {
+    border: 2px solid var(--azul-unison);
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    transition: border 0.3s ease;
+    margin-left: 20px;
+}
+.search-bar:focus {
+    outline: none;
+    border-color: var(--rojo-unison);
+}
+
+/* LINK */
+a {
+    color: var(--azul-unison);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    color: var(--rojo-unison);
+}
+
+/* TARJETAS */
+.card-unison {
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+.card-unison:hover {
+    transform: translateY(-4px);
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .logo-unison {
+        height: 40px;
+    }
+    .navbar-brand {
+        font-size: 1rem;
+    }
+}
+
+/* Barra de búsqueda */
+#awaken-search-form {
+    display: flex;
+    justify-content: center; /* Centra el formulario */
+    padding: 10px 20px; /* Espaciado interno */
+    margin: 0 auto; /* Centra horizontalmente */
+    background-color: #f8f9fa; /* Fondo claro */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+#awaken-search-form input[type="text"] {
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    color: #222;
+    height: 40px;
+    padding: 0 11px;
+    width: 220px;
+    font-size: 14px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    outline: none;
+    margin-right: 10px; /* Espacio entre el campo de texto y el botón */
+}
+
+#awaken-search-form input[type="submit"] {
+    background-color: #1e3269; /* Azul oscuro */
+    border: none;
+    color: white;
+    height: 40px;
+    width: 92px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+}
+
+#awaken-search-form input[type="submit"]:hover {
+    background-color: #162752;
+}
+
+/* Menú horizontal */
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 20px auto;
+    padding: 0;
+}
+
+.nav-menu li {
+    display: inline-block;
+    position: relative;
+}
+
+/* Separador '|' entre elementos, excepto el último */
+.nav-menu li:not(:last-child)::after {
+    content: "|";
+    position: absolute;
+    right: -0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #003366;
+    font-weight: normal;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #003366; /* Azul UNISON */
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.nav-menu a:hover {
+    color: white;
+    background-color: #c8102e; /* Rojo UNISON */
+}
