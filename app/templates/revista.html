@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}{{ revista.titulo }} | Sistema de Revistas{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <!-- Botón de volver atrás -->
+
+
+            <!-- Encabezado -->
+            <div class="d-flex align-items-center mb-4">
+                <div class="me-3" style="font-size: 2rem; color: #006D77;">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                </div>
+                <div>
+                    <h1 class="mb-1">{{ revista.titulo }}</h1>
+                    <p class="text-muted mb-0">{{ revista.editor }}</p>
+                </div>
+            </div>
+
+            <!-- Datos principales -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card mb-3 border-0 bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title text-unison"><i class="bi bi-info-circle me-2"></i>Información Básica</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><strong>ISSN:</strong> {{ revista.issn or 'No disponible' }}</li>
+                                <li class="mb-2"><strong>H-Index:</strong> 
+                                    <span class="badge bg-unison-subtle text-unison-emphasis">
+                                        {{ revista.h_index }}
+                                    </span>
+                                </li>
+                                <li><strong>Tipo:</strong> {{ revista.tipo_publicacion or 'No especificado' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3 border-0 bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title text-unison"><i class="bi bi-link-45deg me-2"></i>Enlaces</h5>
+                            {% if revista.url %}
+                            <a href="{{ revista.url }}" target="_blank" class="btn btn-unison btn-sm">
+                                <i class="bi bi-box-arrow-up-right me-1"></i> Visitar sitio web
+                            </a>
+                            {% else %}
+                            <p class="text-muted">No hay sitio web disponible</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="card mb-4 border-0 bg-light">
+                <div class="card-body">
+                    <h5 class="card-title text-unison"><i class="bi bi-text-paragraph me-2"></i>Descripción</h5>
+                    <p>{{ revista.descripcion or 'No hay descripción disponible' }}</p>
+                </div>
+            </div>
+
+            <!-- Áreas -->
+            <div class="card border-0 bg-light mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-unison"><i class="bi bi-tags me-2"></i>Áreas de conocimiento</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for area in revista.areas %}
+                        <span class="badge bg-unison-subtle text-unison-emphasis py-2 px-3">
+                            {{ area }}
+                        </span>
+                        {% else %}
+                        <span class="text-muted">No se han asignado áreas</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        <!-- Catálogos -->
+        <div class="card border-0 bg-light">
+            <div class="card-body">
+                <h5 class="card-title text-unison"><i class="bi bi-archive me-2"></i>En qué catálogos está</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ url_for('catalogo_detalle', catalogo=revista.catalogo) }}" class="badge bg-unison-subtle text-unison-emphasis py-2 px-3">
+                        {{ revista.catalogo }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Sección -->
+        <div class="card border-0 bg-light">
+            <div class="card-body">
+                <h5 class="card-title text-unison"><i class="bi bi-archive me-2"></i>En qué secciones está</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for area in revista.seccion.split(', ') %}
+                        <a href="{{ url_for('area_detalles', area=area) }}" class="badge bg-unison-subtle text-unison-emphasis py-2 px-3">
+                            {{ area }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+<style>
+    .card.bg-light {
+        background-color: rgba(0, 109, 119, 0.05) !important;
+    }
+    
+    .text-unison {
+        color: #006D77;
+    }
+    
+    .bg-unison-subtle {
+        background-color: rgba(0, 109, 119, 0.1);
+    }
+    
+    .text-unison-emphasis {
+        color: #006D77;
+        font-weight: 600;
+    }
+    
+    .btn-unison {
+        background-color: #006D77;
+        color: white;
+        border: none;
+    }
+    
+    .btn-unison:hover {
+        background-color: #005862;
+        color: white;
+    }
+    
+    .btn-outline-unison {
+        color: #006D77;
+        border-color: #006D77;
+    }
+    
+    .btn-outline-unison:hover {
+        background-color: #006D77;
+        color: white;
+    }
+    
+    .badge {
+        border-radius: 12px;
+    }
+</style>
+{% endblock %}
