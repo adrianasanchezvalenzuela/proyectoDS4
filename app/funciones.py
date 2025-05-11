@@ -49,7 +49,7 @@ class Usuario:
 
 
 class Revista:
-    def __init__(self, id_revista, titulo, issn, editor, h_index, descripcion, url, tipo_publicacion, areas=None, catalogo=None):
+    def __init__(self, id_revista, titulo, issn, editor, h_index, descripcion, url, tipo_publicacion, areas=None, catalogo=None, seccion=None):
         self.id_revista = id_revista
         self.titulo = titulo
         self.issn = issn
@@ -58,8 +58,10 @@ class Revista:
         self.descripcion = descripcion
         self.url = url
         self.tipo_publicacion = tipo_publicacion
-        self.areas = areas or []
+        self.areas = areas if areas else []  # Lista de áreas
         self.catalogo = catalogo or "No disponible"
+        self.seccion = seccion or "No disponible"  # Sección como una cadena de texto
+
 
     def __str__(self):
         return (
@@ -68,11 +70,12 @@ class Revista:
             f"ISSN: {self.issn}\n"
             f"Editor: {self.editor}\n"
             f"Tipo_publicación: {self.tipo_publicacion}\n"
-            f"Áreas: {', '.join(self.areas)}\n"
+            f"Áreas: {self.areas}\n"
             f"H-index: {self.h_index}\n"
             f"Descripción: {self.descripcion}\n"
             f"URL: {self.url}"
             f"\nCatálogo: {self.catalogo}\n"
+            f"Sección: {self.seccion}\n"
         )
 
     @staticmethod
@@ -115,9 +118,10 @@ class Revista:
                         url=url,
                         tipo_publicacion=tipo,
                         areas=areas,
-                        catalogo=revista_data.get("catalogo", "No disponible")
-
+                        catalogo=revista_data.get("catalogo", "No disponible"),
+                        seccion=revista_data.get("seccion", "No disponible")
                     )
+
                     revistas.append(revista)
                     contador_id += 1
 
@@ -147,25 +151,6 @@ class Revista:
                 titulos_por_area[codigo] = set()
 
         return titulos_por_area
-    
-    @staticmethod
-    def imprimir_revistas_por_area(revistas: List["Revista"], titulos_por_area: Dict[str, Set[str]]):
-        """Imprime las revistas clasificadas por área"""
-        print("\n=== REVISTAS AGRUPADAS POR ÁREA ===\n")
-
-        for area, titulos_area in titulos_por_area.items():
-            print(f"\nÁrea: {area.upper()}")
-            print("-" * 60)
-            encontradas = 0
-
-            for revista in revistas:
-                if revista.titulo.strip().lower() in titulos_area:
-                    print(revista)
-                    print("-" * 60)
-                    encontradas += 1
-
-            if encontradas == 0:
-                print("No se encontraron revistas para esta área.")
 
     
     @staticmethod
@@ -228,6 +213,58 @@ class Revista:
             if not encontrado:
                 revista.catalogo = "No disponible"
 
+    @staticmethod
+    def clasificar_revistas_por_area(revistas: List["Revista"], titulos_por_area: Dict[str, Set[str]]):
+        """Clasifica revistas por área y asigna el área principal correspondiente"""
+        for revista in revistas:
+            titulo_normalizado = revista.titulo.strip().lower()
+            
+            # Crear una lista temporal para las áreas encontradas
+            areas_encontradas = []
+
+            # Buscar en las áreas y agregar a la lista temporal
+            for area, titulos in titulos_por_area.items():
+                if titulo_normalizado in titulos:
+                    areas_encontradas.append(area)
+
+            # Si no se encontraron áreas, asignar "No disponible"
+            if not areas_encontradas:
+                areas_encontradas.append("No disponible")
+
+            # Asignar las áreas encontradas a 'area' como una cadena separada por comas
+            revista.area = ", ".join(areas_encontradas)
+            
+            # No se modifica la lista 'areas', esta sigue siendo una lista separada
+
+
+
+    @staticmethod
+    def clasificar_revistas_por_area(revistas: List["Revista"], titulos_por_area: Dict[str, Set[str]]):
+        """Clasifica revistas por área y asigna la sección correspondiente"""
+        for revista in revistas:
+            titulo_normalizado = revista.titulo.strip().lower()
+            
+            # Crear una lista temporal para las áreas encontradas
+            areas_encontradas = []
+
+            # Buscar en las áreas y agregar a la lista temporal
+            for area, titulos in titulos_por_area.items():
+                if titulo_normalizado in titulos:
+                    areas_encontradas.append(area)
+
+            # Si no se encontraron áreas, asignar "No disponible"
+            if not areas_encontradas:
+                areas_encontradas.append("No disponible")
+
+            # Asignar las áreas encontradas a 'seccion' como una cadena separada por comas
+            revista.seccion = ", ".join(areas_encontradas)
+            
+            # Las áreas permanecen separadas en la lista 'areas', no se modifican
+
+
+
+
+
 
 
 class SistemaRevistas:
@@ -244,6 +281,8 @@ class SistemaRevistas:
         
         # Clasifica revistas por catálogo justo después de cargarlas
         Revista.clasificar_revistas_por_catalogo(self.revistas, self.titulos_por_catalogo)
+        # Clasifica revistas por área justo después de cargarlas
+        Revista.clasificar_revistas_por_area(self.revistas, self.titulos_por_area)
 
 
     def obtener_revistas_por_area(self, area: str) -> List[Revista]:
@@ -268,53 +307,49 @@ class SistemaRevistas:
 
 def main():
     json_path = "datos/json/revistas_info_parte_1.json"
-    carpeta_csv = "datos/csv/areas"
-    carpeta_catalogos = "datos/csv/catalogos"
+    carpeta_csv_areas = "datos/csv/areas"
+    carpeta_csv_catalogos = "datos/csv/catalogos"
 
-
-    # Cargar las revistas desde JSON
+    # Paso 1: Cargar las revistas desde JSON
     revistas = Revista.cargar_revistas_desde_json(json_path)
-
-    if revistas:
-        print(f"\nTotal de revistas cargadas: {len(revistas)}\n")
-        for revista in revistas[:2]:
-            print(revista)
-            print("\n" + "-" * 50 + "\n")
-    else:
+    if not revistas:
         print("No se cargaron revistas.")
-    
-        # Cargar catálogos desde CSV
-    catalogos = Revista.cargar_titulos_por_catalogo(carpeta_catalogos)
+        return
 
-    # Asignar catálogos a las revistas
-    Revista.clasificar_revistas_por_catalogo(revistas, catalogos)
-
-    # Imprimir solo las primeras 5 revistas para revisión
-    for revista in revistas[:5]:
+    print(f"\nTotal de revistas cargadas: {len(revistas)}\n")
+    for revista in revistas[:2]:  # Muestra un par como ejemplo
         print(revista)
+        print("\n" + "-" * 50 + "\n")
 
-    # Cargar títulos por área desde CSV
-    titulos_por_area = Revista.cargar_titulos_por_area(carpeta_csv)
+    # Paso 2: Cargar títulos por área y por catálogo desde CSV
+    titulos_por_area = Revista.cargar_titulos_por_area(carpeta_csv_areas)
+    catalogos = Revista.cargar_titulos_por_catalogo(carpeta_csv_catalogos)
 
+    # Paso 3: Asignar catálogos y áreas a las revistas
+    Revista.clasificar_revistas_por_catalogo(revistas, catalogos)
+    Revista.clasificar_revistas_por_area(revistas, titulos_por_area)
+
+    # Paso 4: Imprimir resultados organizados
+    print("\n" + "=" * 50)
+    print("REVISTAS CON CATÁLOGO Y ÁREA ASIGNADOS")
+    print("=" * 50 + "\n")
+
+    for revista in revistas[:10]:  # Cambia el rango si quieres ver más
+        print(revista)
+        print("-" * 50)
+
+    # Paso 5 (opcional): Mostrar resumen de áreas y catálogos
+    print("\nResumen de áreas:")
     for area, titulos in titulos_por_area.items():
         print(f"{area}: {len(titulos)} títulos")
-        for titulo in list(titulos)[:5]:  # Puedes ajustar este número
+        for titulo in list(titulos)[:3]:
             print(f"  - {titulo}")
-    print("-" * 50)
-    Revista.imprimir_revistas_por_area(revistas, titulos_por_area)
 
-    # Cargar títulos por catálogo
-    titulos_por_catalogo = Revista.cargar_titulos_por_catalogo()
-    Revista.imprimir_revistas_por_catalogo(revistas, titulos_por_catalogo)
-    if titulos_por_catalogo:
-        print(f"\nTotal de catálogos cargados: {len(titulos_por_catalogo)}\n")
-        for catalogo, titulos in titulos_por_catalogo.items():
-            print(f"{catalogo}: {len(titulos)} títulos")
-            for titulo in list(titulos)[:5]:
-                print(f"  - {titulo}")
-
-
-
+    print("\nResumen de catálogos:")
+    for catalogo, titulos in catalogos.items():
+        print(f"{catalogo}: {len(titulos)} títulos")
+        for titulo in list(titulos)[:3]:
+            print(f"  - {titulo}")
 
 
 
