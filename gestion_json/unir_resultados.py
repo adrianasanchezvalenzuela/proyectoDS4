@@ -11,4 +11,4 @@ for archivo in archivos:
 with open('datos/json/revistas_info_parte_1.json', 'w', encoding='utf-8') as f:
     json.dump(resultado, f, indent=2, ensure_ascii=False)
 
-print("✅ Todos los resultados se han unido correctamente en 'revistas_info_completo.json'")
+print("Resultados guardados correctamente :)")
