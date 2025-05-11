@@ -160,13 +160,14 @@ def creditos():
 
 @app.route('/busqueda')
 def busqueda():
-    """Realiza búsqueda de revistas"""
     query = request.args.get('q', '')
-    resultados = sistema.buscar_revistas(query) if query else []  # Método de búsqueda de la clase Revistas
-    return render_template('busqueda.html',
-                         query=query,
-                         revistas=resultados,
-                         logged_in='username' in session)
+    if query:
+        revistas = sistema.buscar_revistas(query)
+    else:
+        revistas = []
+
+    return render_template('busqueda.html', query=query, revistas=revistas)
+
 
 @app.route('/favoritos')
 def favoritos():
