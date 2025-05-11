@@ -19,6 +19,15 @@ AREAS_CSV = {
     'multi': 'datos/csv/areas/MULTI RadGridExport.csv',
 }
 
+CATALOGOS_CSV = {
+    'CONACYT': 'datos/csv/catalogos/CONACYT_RadGridExport.csv',
+    'JCR': 'datos/csv/catalogos/JCR_RadGridExport.csv',
+    'MLA': 'datos/csv/catalogos/MLA_RadGridExport.csv',
+    'SCIELO': 'datos/csv/catalogos/SCIELO_RadGridExport.csv',
+    'SCOPUS': 'datos/csv/catalogos/SCOPUS_RadGridExport.csv',
+}
+
+
 
 @dataclass
 class Usuario:
@@ -40,7 +49,7 @@ class Usuario:
 
 
 class Revista:
-    def __init__(self, id_revista, titulo, issn, editor, h_index, descripcion, url, tipo_publicacion, areas=None):
+    def __init__(self, id_revista, titulo, issn, editor, h_index, descripcion, url, tipo_publicacion, areas=None, catalogo=None):
         self.id_revista = id_revista
         self.titulo = titulo
         self.issn = issn
@@ -50,6 +59,7 @@ class Revista:
         self.url = url
         self.tipo_publicacion = tipo_publicacion
         self.areas = areas or []
+        self.catalogo = catalogo or "No disponible"
 
     def __str__(self):
         return (
@@ -62,6 +72,7 @@ class Revista:
             f"H-index: {self.h_index}\n"
             f"Descripción: {self.descripcion}\n"
             f"URL: {self.url}"
+            f"\nCatálogo: {self.catalogo}\n"
         )
 
     @staticmethod
@@ -103,7 +114,9 @@ class Revista:
                         descripcion=descripcion,
                         url=url,
                         tipo_publicacion=tipo,
-                        areas=areas
+                        areas=areas,
+                        catalogo=revista_data.get("catalogo", "No disponible")
+
                     )
                     revistas.append(revista)
                     contador_id += 1
@@ -154,6 +167,66 @@ class Revista:
             if encontradas == 0:
                 print("No se encontraron revistas para esta área.")
 
+    
+    @staticmethod
+    def cargar_titulos_por_catalogo(carpeta_catalogos: str) -> Dict[str, Set[str]]:
+        """Carga títulos de revistas por catálogo desde archivos CSV"""
+        titulos_por_catalogo = {}
+
+        for nombre, ruta_csv in CATALOGOS_CSV.items():
+            try:
+                with open(ruta_csv, mode='r', encoding='latin1') as archivo:
+                    lector = csv.DictReader(archivo)
+                    titulos = set()
+                    for fila in lector:
+                        titulo = fila.get('TITULO:', '').strip().lower()
+                        if titulo:
+                            titulos.add(titulo)
+                    titulos_por_catalogo[nombre] = titulos
+            except Exception as e:
+                print(f"Error con {ruta_csv}: {e}")
+                titulos_por_catalogo[nombre] = set()
+
+        return titulos_por_catalogo
+    
+    @staticmethod
+    def imprimir_revistas_por_catalogo(revistas: List["Revista"], titulos_por_catalogo: Dict[str, Set[str]]):
+        """Imprime las revistas clasificadas por catálogo"""
+        print("\n=== REVISTAS AGRUPADAS POR CATÁLOGO ===\n")
+
+        for catalogo, titulos in titulos_por_catalogo.items():
+            print(f"\nCatálogo: {catalogo.upper()}")
+            print("-" * 60)
+            encontradas = 0
+
+            for revista in revistas:
+                if revista.titulo.strip().lower() in titulos:
+                    print(revista)
+                    print("-" * 60)
+                    encontradas += 1
+
+            if encontradas == 0:
+                print("No se encontraron revistas para este catálogo.")
+
+        for revista in revistas:
+            catalogo = revista.catalogo.strip().upper()
+            titulos = titulos_por_catalogo.get(catalogo)
+            if titulos is None:
+                print(f"[!] Catálogo no encontrado: '{revista.catalogo}'")
+
+    @staticmethod
+    def clasificar_revistas_por_catalogo(revistas: List["Revista"], titulos_por_catalogo: Dict[str, Set[str]]):
+        """Asigna el nombre del catálogo correcto a cada revista si se encuentra"""
+        for revista in revistas:
+            titulo_normalizado = revista.titulo.strip().lower()
+            encontrado = False
+            for catalogo, titulos in titulos_por_catalogo.items():
+                if titulo_normalizado in titulos:
+                    revista.catalogo = catalogo
+                    encontrado = True
+                    break
+            if not encontrado:
+                revista.catalogo = "No disponible"
 
 
 
@@ -164,9 +237,14 @@ class SistemaRevistas:
         self.usuarios: List[Usuario] = []  # Solo si los usas
         self.usuario_actual: Usuario | None = None  # Opcional
 
-    def cargar_datos(self, json_path: str, carpeta_csv: str):
+    def cargar_datos(self, json_path: str, carpeta_csv: str, carpeta_catalogos: str):
         self.revistas = Revista.cargar_revistas_desde_json(json_path)
         self.titulos_por_area = Revista.cargar_titulos_por_area(carpeta_csv)
+        self.titulos_por_catalogo = Revista.cargar_titulos_por_catalogo(carpeta_catalogos)
+        
+        # Clasifica revistas por catálogo justo después de cargarlas
+        Revista.clasificar_revistas_por_catalogo(self.revistas, self.titulos_por_catalogo)
+
 
     def obtener_revistas_por_area(self, area: str) -> List[Revista]:
         titulos = self.titulos_por_area.get(area, set())
@@ -181,11 +259,18 @@ class SistemaRevistas:
             if revista.id_revista == id_revista:
                 return revista
         return None
+    
+    def obtener_revista_por_catalogo(self, catalogo: str) -> List[Revista]:
+        return [revista for revista in self.revistas if revista.catalogo.strip().lower() == catalogo.lower()]
+
+
 
 
 def main():
     json_path = "datos/json/revistas_info_parte_1.json"
     carpeta_csv = "datos/csv/areas"
+    carpeta_catalogos = "datos/csv/catalogos"
+
 
     # Cargar las revistas desde JSON
     revistas = Revista.cargar_revistas_desde_json(json_path)
@@ -197,6 +282,16 @@ def main():
             print("\n" + "-" * 50 + "\n")
     else:
         print("No se cargaron revistas.")
+    
+        # Cargar catálogos desde CSV
+    catalogos = Revista.cargar_titulos_por_catalogo(carpeta_catalogos)
+
+    # Asignar catálogos a las revistas
+    Revista.clasificar_revistas_por_catalogo(revistas, catalogos)
+
+    # Imprimir solo las primeras 5 revistas para revisión
+    for revista in revistas[:5]:
+        print(revista)
 
     # Cargar títulos por área desde CSV
     titulos_por_area = Revista.cargar_titulos_por_area(carpeta_csv)
@@ -207,6 +302,18 @@ def main():
             print(f"  - {titulo}")
     print("-" * 50)
     Revista.imprimir_revistas_por_area(revistas, titulos_por_area)
+
+    # Cargar títulos por catálogo
+    titulos_por_catalogo = Revista.cargar_titulos_por_catalogo()
+    Revista.imprimir_revistas_por_catalogo(revistas, titulos_por_catalogo)
+    if titulos_por_catalogo:
+        print(f"\nTotal de catálogos cargados: {len(titulos_por_catalogo)}\n")
+        for catalogo, titulos in titulos_por_catalogo.items():
+            print(f"{catalogo}: {len(titulos)} títulos")
+            for titulo in list(titulos)[:5]:
+                print(f"  - {titulo}")
+
+
 
 
 

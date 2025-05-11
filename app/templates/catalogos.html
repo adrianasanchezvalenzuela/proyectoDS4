@@ -4,22 +4,75 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1 class="mb-4">Catálogos Disponibles</h1>
+    <h1 class="mb-4 text-unison">Catálogos de Revistas</h1>
     
-    <div class="row">
-        {% for catalogo in ['Q1', 'Q2', 'SCIE', 'SSCI', 'Revistas UNISON', 'Nacionales'] %}
-        <div class="col-md-6 mb-4">
-            <div class="card card-unison h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Catálogo {{ catalogo }}</h5>
-                    <p class="card-text">Revistas indexadas en {{ catalogo }}</p>
-                    <a href="/catalogo/{{ catalogo|lower }}" class="btn btn-unison">
-                        Ver Revistas <span class="badge bg-secondary">{{ range(10, 50)|random }}</span>
+    <div class="row g-4">
+
+        <!-- Catálogo CONACYT -->
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h4 card-title text-unison">Catálogo CONACYT</h3>
+                    <p class="card-text">Revistas especializadas en diversas áreas del conocimiento apoyadas por CONACYT.</p>
+                    <a href="{{ url_for('catalogo_detalle', catalogo='conacyt') }}" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
             </div>
         </div>
-        {% endfor %}
+
+        <!-- Catálogo JCR -->
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h4 card-title text-unison">Catálogo JCR</h3>
+                    <p class="card-text">Revistas indexadas en el Journal Citation Reports (JCR) para acceso científico.</p>
+                    <a href="{{ url_for('catalogo_detalle', catalogo='jcr') }}" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catálogo MLA -->
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h4 card-title text-unison">Catálogo MLA</h3>
+                    <p class="card-text">Recursos sobre humanidades y literatura en el catálogo MLA.</p>
+                    <a href="{{ url_for('catalogo_detalle', catalogo='mla') }}" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catálogo SCIELO -->
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h4 card-title text-unison">Catálogo SCIELO</h3>
+                    <p class="card-text">Acceso a revistas científicas de América Latina y el Caribe en SCIELO.</p>
+                    <a href="{{ url_for('catalogo_detalle', catalogo='scielo') }}" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catálogo SCOPUS -->
+        <div class="col-md-4">
+            <div class="card card-feature h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h4 card-title text-unison">Catálogo SCOPUS</h3>
+                    <p class="card-text">Revistas académicas y científicas indexadas en SCOPUS.</p>
+                    <a href="{{ url_for('catalogo_detalle', catalogo='scopus') }}" class="btn btn-unison btn-sm mt-3">
+                        Ver Revistas <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}

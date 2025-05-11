@@ -7,7 +7,7 @@ app.secret_key = os.environ.get('SECRET_KEY') or 'tu-clave-secreta-aqui'
 
 # Inicializa el sistema
 sistema = SistemaRevistas()
-sistema.cargar_datos("datos/json/revistas_info_parte_1.json", "datos/csv/areas")
+sistema.cargar_datos("datos/json/revistas_info_parte_1.json", "datos/csv/areas", "datos/csv/catalogos")
 
 
 @app.route('/')
@@ -81,31 +81,14 @@ def area_detalles(area):
     return render_template('area_detalle.html', area=nombre_area_legible, revistas=revistas)
 
 
-@app.route('/revista/<int:id_revista>')
-def mostrar_revista(id_revista):
-    revista = sistema.obtener_revista_por_id(id_revista)
-    if revista:
-        return render_template('revista.html', revista=revista)
-    else:
-        return "Revista no encontrada", 404
-
-
-
-
 @app.route('/explorar')
 def explorar():
-    """Muestra revistas por área"""
-    area = request.args.get('area', '')
-    if not area:
-        return redirect(url_for('area'))
-    
-    area_nombre = sistema.AREAS.get(area, area)
-    revistas = sistema.obtener_revistas_por_area(area)  # Método de la clase Revistas
-    
+    """Muestra todas las revistas"""
     return render_template('explorar.html',
-                         area=area_nombre,
-                         revistas=revistas,
+                         revistas=sistema.revistas,
                          logged_in='username' in session)
+
+
 
 @app.route('/revista/<int:id_revista>')
 def revista(id_revista):
@@ -119,6 +102,7 @@ def revista(id_revista):
     if 'username' in session and sistema.usuario_actual:
         es_favorito = id_revista in sistema.usuario_actual.favoritos
     
+    print(f"Catálogo: {revista.catalogo}") 
     return render_template('revista.html',
                          revista=revista,
                          es_favorito=es_favorito,
@@ -128,6 +112,26 @@ def revista(id_revista):
 def catalogos():
     """Muestra información sobre los catálogos"""
     return render_template('catalogos.html')
+
+@app.route('/catalogo/<catalogo>')
+def catalogo_detalle(catalogo):
+    CATALOGOS = {
+        'conacyt': 'Catálogo CONACYT',
+        'jcr': 'Catálogo JCR',
+        'mla': 'Catálogo MLA',
+        'scielo': 'Catálogo SCIELO',
+        'scopus': 'Catálogo SCOPUS'
+    }
+
+    # Obtener nombre legible del catálogo
+    nombre_legible = CATALOGOS.get(catalogo, catalogo)
+
+    # Obtener las revistas por catálogo usando el sistema
+    revistas = sistema.obtener_revista_por_catalogo(catalogo)
+
+    return render_template('catalogo_detalle.html', catalogo=nombre_legible, revistas=revistas)
+
+
 
 @app.route('/creditos')
 def creditos():

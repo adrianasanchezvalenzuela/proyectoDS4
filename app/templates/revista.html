@@ -7,6 +7,8 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <!-- Botón de volver atrás -->
+             <h2>Catálogo: {{ revista.catalogo }}</h2>
+
             <!-- Encabezado -->
             <div class="d-flex align-items-center mb-4">
                 <div class="me-3" style="font-size: 2rem; color: #006D77;">
@@ -61,7 +63,7 @@
             </div>
 
             <!-- Áreas -->
-            <div class="card border-0 bg-light">
+            <div class="card border-0 bg-light mb-4">
                 <div class="card-body">
                     <h5 class="card-title text-unison"><i class="bi bi-tags me-2"></i>Áreas de conocimiento</h5>
                     <div class="d-flex flex-wrap gap-2">
@@ -75,9 +77,18 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+
+            <!-- Catálogos -->
+            <div class="card border-0 bg-light">
+                <div class="card-body">
+                    <h5 class="card-title text-unison"><i class="bi bi-archive me-2"></i>En qué catálogos está</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                       <span class="badge bg-unison-subtle text-unison-emphasis py-2 px-3">
+                         {{ revista.catalogo }}
+                       </span>
+                    </div>
+                </div>
+            </div>
 
 <style>
     .card.bg-light {
