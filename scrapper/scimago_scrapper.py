@@ -32,7 +32,7 @@ def guardar_resultados(datos, archivo_salida):
         json.dump(datos, f, indent=2, ensure_ascii=False)
 
 
-def get_texto(soup, selector):
+def obtener_texto(soup, selector):
     el = soup.select_one(selector)
     return el.text.strip() if el else None
 
@@ -44,7 +44,7 @@ def obtener_sitio_web(soup):
                 return a['href'].strip()
     return None
 
-def get_texto_por_h2(soup, titulo):
+def obtener_texto_por_h2(soup, titulo):
     h2 = soup.find('h2', string=titulo)
     if h2:
         p = h2.find_next('p')
@@ -80,12 +80,12 @@ def extraer_info_revista(url):
 
     info = {
         'sitio_web': obtener_sitio_web(soup),
-        'h_index': get_texto_por_h2(soup, "H-Index"),
-        'subject_area': get_texto_por_h2(soup, 'Subject Area and Category'),
-        'publisher': get_texto_por_h2(soup, 'Publisher'),
-        'issn': get_texto_por_h2(soup, 'ISSN'),
+        'h_index': obtener_texto_por_h2(soup, "H-Index"),
+        'subject_area': obtener_texto_por_h2(soup, 'Subject Area and Category'),
+        'publisher': obtener_texto_por_h2(soup, 'Publisher'),
+        'issn': obtener_texto_por_h2(soup, 'ISSN'),
         'widget': obtener_imagen(soup),
-        'tipo_publicacion': get_texto_por_h2(soup, 'Publication type'),
+        'tipo_publicacion': obtener_texto_por_h2(soup, 'Publication type'),
         'ultima_visita': time.strftime("%Y-%m-%d")
     }
 

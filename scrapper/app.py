@@ -1,5 +1,5 @@
 '''
-Programa principal para extraer información de revistas desde SCImago, por rangos
+Programa principal para extraer información de revistas desde scimago
 '''
 
 import argparse
@@ -13,7 +13,7 @@ from scimago_scrapper import (
 )
 
 def main():
-    parser = argparse.ArgumentParser(description="Scraper de SCImago por rangos")
+    parser = argparse.ArgumentParser(description="Scraper de scimago por rangos")
     parser.add_argument('-a', '--archivo', required=True, help='Archivo JSON de entrada')
     parser.add_argument('-p', '--inicio', type=int, required=True, help='Índice inicial')
     parser.add_argument('-u', '--fin', type=int, required=True, help='Índice final (no incluido)')
