@@ -92,19 +92,20 @@
 
 
 
-        <!-- Sección -->
-        <div class="card border-0 bg-light">
-            <div class="card-body">
-                <h5 class="card-title text-unison"><i class="bi bi-archive me-2"></i>En qué secciones está</h5>
-                <div class="d-flex flex-wrap gap-2">
-                    {% for area in revista.seccion.split(', ') %}
-                        <a href="{{ url_for('area_detalles', area=area) }}" class="badge bg-unison-subtle text-unison-emphasis py-2 px-3">
-                            {{ area }}
-                        </a>
-                    {% endfor %}
+                <!-- Sección -->
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-unison"><i class="bi bi-archive me-2"></i>En qué secciones está</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for area in revista.seccion.split(', ') %}
+                                <a href="{{ url_for('area_detalles', area=area) }}" class="badge bg-unison-subtle text-unison-emphasis py-2 px-3">
+                                    {{ AREAS_NOMBRES.get(area, area) }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+
 
 
 

@@ -9,6 +9,17 @@ app.secret_key = os.environ.get('SECRET_KEY') or 'tu-clave-secreta-aqui'
 sistema = SistemaRevistas()
 sistema.cargar_datos("datos/json/revistas_info_parte_1.json", "datos/csv/areas", "datos/csv/catalogos")
 
+AREAS_NOMBRES = {
+    'ciencias_bio': 'Ciencias Biológicas',
+    'ciencias_eco': 'Ciencias Económicas',
+    'ciencias_exa': 'Ciencias Exactas',
+    'ciencias_soc': 'Ciencias Sociales',
+    'ed_inst': 'Educación Institucional',
+    'ed_lib': 'Educación Libre',
+    'human_y_art': 'Humanidades y Artes',
+    'ing': 'Ingenierías',
+    'multi': 'Multidisciplinarias'
+}
 
 @app.route('/')
 def index():
@@ -59,20 +70,9 @@ def area():
 
 @app.route('/area_detalle/<area>')
 def area_detalles(area):
-    AREAS = {
-        'ciencias_bio': 'Ciencias Biológicas',
-        'ciencias_eco': 'Ciencias Económicas',
-        'ciencias_exa': 'Ciencias Exactas',
-        'ciencias_soc': 'Ciencias Sociales',
-        'ed_inst': 'Educación Institucional',
-        'ed_lib': 'Educación Libre',
-        'human_y_art': 'Humanidades y Artes',
-        'ing': 'Ingenierías',
-        'multi': 'Multidisciplinarias'
-    }
 
     # Obtener nombre legible del área
-    nombre_area_legible = AREAS.get(area, area)  # Usa el nombre legible si existe, si no, deja el código
+    nombre_area_legible = AREAS_NOMBRES.get(area, area)  # Usa el nombre legible si existe, si no, deja el código
 
     # Obtener las revistas del área usando el sistema ya cargado
     revistas = sistema.obtener_revistas_por_area(area)
@@ -88,23 +88,21 @@ def explora():
 @app.route('/explorar/<letra>')
 def explorar(letra):
     """Muestra todas las revistas clasificadas por la primera letra de su título o las filtradas por la letra seleccionada."""
-    # Clasificar las revistas por la primera letra de su título
     revistas_por_letra = sistema.clasificar_revistas_por_letra(sistema.revistas)
 
-    # Si se selecciona una letra, filtrar las revistas por esa letra
     if letra:
         revistas_filtradas = revistas_por_letra.get(letra.upper(), [])
         return render_template('explorar.html',
                                revistas_por_letra=revistas_por_letra,
                                letra_actual=letra.upper(),
                                revistas=revistas_filtradas,
-                               logged_in='username' in session)
+                               logged_in='username' in session,
+                               AREAS_NOMBRES=AREAS_NOMBRES)
     else:
-        # Si no hay letra, mostrar todas las revistas clasificadas por letra
         return render_template('explorar.html',
                                revistas_por_letra=revistas_por_letra,
-                               logged_in='username' in session)
-
+                               logged_in='username' in session,
+                               AREAS_NOMBRES=AREAS_NOMBRES)
 
 
 
@@ -112,7 +110,7 @@ def explorar(letra):
 @app.route('/revista/<int:id_revista>')
 def revista(id_revista):
     """Muestra detalles de una revista"""
-    revista = sistema.obtener_revista_por_id(id_revista)  # Método de la clase Revistas
+    revista = sistema.obtener_revista_por_id(id_revista)
     if not revista:
         flash('Revista no encontrada', 'danger')
         return redirect(url_for('index'))
@@ -126,7 +124,8 @@ def revista(id_revista):
     return render_template('revista.html',
                          revista=revista,
                          es_favorito=es_favorito,
-                         logged_in='username' in session)
+                         logged_in='username' in session,
+                         AREAS_NOMBRES=AREAS_NOMBRES)
 
 @app.route('/catalogos')
 def catalogos():
@@ -166,7 +165,10 @@ def busqueda():
     else:
         revistas = []
 
-    return render_template('busqueda.html', query=query, revistas=revistas)
+    return render_template('busqueda.html',
+                           query=query,
+                           revistas=revistas,
+                           AREAS_NOMBRES=AREAS_NOMBRES)
 
 
 @app.route('/favoritos')
