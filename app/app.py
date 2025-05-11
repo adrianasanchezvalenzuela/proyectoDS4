@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from funciones import SistemaRevistas  # Asegúrate de que la clase Revistas esté definida aquí
-import os # Asegúrate de que la clase RevistaManager esté definida aquí
+from funciones import SistemaRevistas  
+import os 
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY') or 'tu-clave-secreta-aqui'
@@ -16,6 +16,7 @@ def index():
     return render_template('index.html', 
                          logged_in='username' in session,
                          nombre_usuario=session.get('nombre_completo'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -38,6 +39,11 @@ def login():
     
     return render_template('login.html')
 
+@app.route('/inicio')
+def inicio():
+    """Redirige a la página de inicio"""
+    return redirect(url_for('index'))
+    
 @app.route('/logout')
 def logout():
     """Cierra la sesión del usuario"""
