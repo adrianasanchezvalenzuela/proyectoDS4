@@ -4,6 +4,7 @@ import hashlib
 import re
 from dataclasses import dataclass, field
 from typing import Set, Dict, List
+from collections import defaultdict
 
 
 # Constante global para las rutas CSV
@@ -259,13 +260,20 @@ class Revista:
             # Asignar las áreas encontradas a 'seccion' como una cadena separada por comas
             revista.seccion = ", ".join(areas_encontradas)
             
-            # Las áreas permanecen separadas en la lista 'areas', no se modifican
 
+    def clasificar_revistas_por_letra(revistas: List["Revista"]) -> Dict[str, List["Revista"]]:
+        """Clasifica las revistas por la primera letra de su título."""
+        revistas_por_letra = defaultdict(list)
 
+        for revista in revistas:
+            # Obtenemos la primera letra del título de la revista (en minúsculas)
+            letra_inicial = revista.titulo.strip()[0].upper()
 
+            # Verificamos que la letra sea una letra válida (A-Z)
+            if letra_inicial.isalpha():
+                revistas_por_letra[letra_inicial].append(revista)
 
-
-
+        return dict(revistas_por_letra)
 
 class SistemaRevistas:
     def __init__(self):
@@ -283,6 +291,8 @@ class SistemaRevistas:
         Revista.clasificar_revistas_por_catalogo(self.revistas, self.titulos_por_catalogo)
         # Clasifica revistas por área justo después de cargarlas
         Revista.clasificar_revistas_por_area(self.revistas, self.titulos_por_area)
+        # Clasifica revistas por letra
+        Revista.clasificar_revistas_por_letra(self.revistas)
 
 
     def obtener_revistas_por_area(self, area: str) -> List[Revista]:
@@ -301,6 +311,15 @@ class SistemaRevistas:
     
     def obtener_revista_por_catalogo(self, catalogo: str) -> List[Revista]:
         return [revista for revista in self.revistas if revista.catalogo.strip().lower() == catalogo.lower()]
+    
+    def clasificar_revistas_por_letra(self, revistas):
+        """Clasifica las revistas por la primera letra de su título."""
+        revistas_por_letra = defaultdict(list)
+        for revista in revistas:
+            letra_inicial = revista.titulo.strip()[0].upper()
+            if letra_inicial.isalpha():
+                revistas_por_letra[letra_inicial].append(revista)
+        return dict(revistas_por_letra)
 
 
 

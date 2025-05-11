@@ -81,12 +81,31 @@ def area_detalles(area):
     return render_template('area_detalle.html', area=nombre_area_legible, revistas=revistas)
 
 
-@app.route('/explorar')
-def explorar():
-    """Muestra todas las revistas"""
-    return render_template('explorar.html',
-                         revistas=sistema.revistas,
-                         logged_in='username' in session)
+@app.route('/explora')
+def explora():
+    return render_template('explora.html')
+
+@app.route('/explorar/<letra>')
+def explorar(letra):
+    """Muestra todas las revistas clasificadas por la primera letra de su título o las filtradas por la letra seleccionada."""
+    # Clasificar las revistas por la primera letra de su título
+    revistas_por_letra = sistema.clasificar_revistas_por_letra(sistema.revistas)
+
+    # Si se selecciona una letra, filtrar las revistas por esa letra
+    if letra:
+        revistas_filtradas = revistas_por_letra.get(letra.upper(), [])
+        return render_template('explorar.html',
+                               revistas_por_letra=revistas_por_letra,
+                               letra_actual=letra.upper(),
+                               revistas=revistas_filtradas,
+                               logged_in='username' in session)
+    else:
+        # Si no hay letra, mostrar todas las revistas clasificadas por letra
+        return render_template('explorar.html',
+                               revistas_por_letra=revistas_por_letra,
+                               logged_in='username' in session)
+
+
 
 
 
@@ -103,6 +122,7 @@ def revista(id_revista):
         es_favorito = id_revista in sistema.usuario_actual.favoritos
     
     print(f"Catálogo: {revista.catalogo}") 
+    print(f"Área: {revista.seccion}")
     return render_template('revista.html',
                          revista=revista,
                          es_favorito=es_favorito,
