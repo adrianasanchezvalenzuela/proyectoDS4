@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from funciones import SistemaRevistas  
+from funciones import SistemaRevistas, Usuario  
 import os 
 
 app = Flask(__name__)
@@ -54,7 +54,8 @@ def login():
 def inicio():
     """Redirige a la página de inicio"""
     return redirect(url_for('index'))
-    
+
+'''  
 @app.route('/logout')
 def logout():
     """Cierra la sesión del usuario"""
@@ -62,6 +63,7 @@ def logout():
     session.clear()
     flash('Has cerrado sesión correctamente', 'info')
     return redirect(url_for('index'))
+'''
 
 @app.route('/area')
 def area():
@@ -171,39 +173,6 @@ def busqueda():
                            AREAS_NOMBRES=AREAS_NOMBRES)
 
 
-@app.route('/favoritos')
-def favoritos():
-    """Muestra las revistas favoritas del usuario"""
-    if 'username' not in session:
-        flash('Debes iniciar sesión para ver tus favoritos', 'warning')
-        return redirect(url_for('login'))
-    
-    revistas = sistema.obtener_favoritos()  # Método para obtener favoritos
-    return render_template('favoritos.html',
-                         revistas=revistas,
-                         logged_in=True)
-
-@app.route('/toggle_favorito/<int:id_revista>', methods=['POST'])
-def toggle_favorito(id_revista):
-    """Agrega o elimina una revista de favoritos"""
-    if 'username' not in session:
-        return {'success': False, 'message': 'No autenticado'}, 401
-    
-    if id_revista not in sistema.revistas:
-        return {'success': False, 'message': 'Revista no encontrada'}, 404
-    
-    if id_revista in sistema.usuario_actual.favoritos:
-        sistema.eliminar_favorito(id_revista)  # Método de eliminar favorito de la clase Revistas
-        action = 'eliminada'
-    else:
-        sistema.agregar_favorito(id_revista)  # Método de agregar favorito de la clase Revistas
-        action = 'añadida'
-    
-    return {
-        'success': True,
-        'action': action,
-        'message': f'Revista {action} a favoritos'
-    }
-
 if __name__ == '__main__':
+    # Configura la clave secreta para la sesión
     app.run(debug=True)
