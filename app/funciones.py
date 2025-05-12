@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Set, Dict, List
 from collections import defaultdict
+import os
 
 
 # Constante global para las rutas CSV
@@ -29,24 +30,28 @@ CATALOGOS_CSV = {
 }
 
 
-
 @dataclass
 class Usuario:
-    """Clase para manejar usuarios del sistema"""
-    username: str
-    password: str  # Almacena el hash
-    nombre_completo: str
-    email: str
-    favoritos: Set[int] = field(default_factory=set)
-
-    @staticmethod
-    def hash_string(s: str) -> str:
-        """Genera hash SHA-256 de una cadena"""
-        return hashlib.sha256(s.encode()).hexdigest()
-
-    def verificar_password(self, password: str) -> bool:
+    def __init__(self, correo, nombre_completo, password):
+        self.correo = correo
+        self.nombre_completo = nombre_completo 
+        self.password = self.hash_string(password)
+    
+    def hash_string(self, string):
+        """Devuelve el hash SHA-256 de un string"""
+        return hashlib.sha256(string.encode()).hexdigest()
+    
+    def verificar_password(self, password):
         """Verifica si el password coincide con el hash almacenado"""
         return self.hash_string(password) == self.password
+    
+    def to_dict(self):
+        """Devuelve un diccionario con la información del usuario"""
+        return {
+            'correo': self.correo,
+            'nombre_completo': self.nombre_completo,
+            'password': self.password
+        }
 
 
 class Revista:
@@ -214,29 +219,6 @@ class Revista:
             if not encontrado:
                 revista.catalogo = "No disponible"
 
-    @staticmethod
-    def clasificar_revistas_por_area(revistas: List["Revista"], titulos_por_area: Dict[str, Set[str]]):
-        """Clasifica revistas por área y asigna el área principal correspondiente"""
-        for revista in revistas:
-            titulo_normalizado = revista.titulo.strip().lower()
-            
-            # Crear una lista temporal para las áreas encontradas
-            areas_encontradas = []
-
-            # Buscar en las áreas y agregar a la lista temporal
-            for area, titulos in titulos_por_area.items():
-                if titulo_normalizado in titulos:
-                    areas_encontradas.append(area)
-
-            # Si no se encontraron áreas, asignar "No disponible"
-            if not areas_encontradas:
-                areas_encontradas.append("No disponible")
-
-            # Asignar las áreas encontradas a 'area' como una cadena separada por comas
-            revista.area = ", ".join(areas_encontradas)
-            
-            # No se modifica la lista 'areas', esta sigue siendo una lista separada
-
 
 
     @staticmethod
@@ -245,7 +227,6 @@ class Revista:
         for revista in revistas:
             titulo_normalizado = revista.titulo.strip().lower()
             
-            # Crear una lista temporal para las áreas encontradas
             areas_encontradas = []
 
             # Buscar en las áreas y agregar a la lista temporal
@@ -279,8 +260,8 @@ class SistemaRevistas:
     def __init__(self):
         self.revistas = []
         self.titulos_por_area = {}
-        self.usuarios: List[Usuario] = []  # Solo si los usas
-        self.usuario_actual: Usuario | None = None  # Opcional
+        self.usuarios = {}  
+        self.usuario_actual = None
 
     def cargar_datos(self, json_path: str, carpeta_csv: str, carpeta_catalogos: str):
         self.revistas = Revista.cargar_revistas_desde_json(json_path)
@@ -320,6 +301,52 @@ class SistemaRevistas:
             if letra_inicial.isalpha():
                 revistas_por_letra[letra_inicial].append(revista)
         return dict(revistas_por_letra)
+    
+    def login(self, email: str, password: str) -> bool:
+        """Inicia sesión usando email"""
+        if email in self.usuarios:
+            user = self.usuarios[email]
+            if user.verificar_password(password):
+                self.current_user = user 
+                self.usuario_actual = user 
+                return True
+        return False
+
+    def cargar_usuarios_desde_csv(self, ruta_csv: str) -> bool:
+        """Carga usuarios desde un archivo CSV"""
+        try:
+            with open(ruta_csv, mode='r', encoding='latin-1') as archivo:
+                lector = csv.DictReader(archivo, skipinitialspace=True)
+                
+                columnas = [col.strip() for col in lector.fieldnames]
+                if not all(key in columnas for key in ['Correo', 'Nombre', 'Contrasena']):
+                    print("Error: El archivo CSV no tiene las columnas requeridas")
+                    print(f"Columnas encontradas: {lector.fieldnames}")
+                    return False
+                
+                for fila in lector:
+                    usuario = Usuario(
+                        fila['Correo'].strip(),
+                        fila['Nombre '].strip(), 
+                        fila['Contrasena'].strip()
+                    )
+                    self.usuarios[usuario.correo] = usuario
+                    
+            print(f"Total de usuarios cargados: {len(self.usuarios)}")
+            return True
+            
+        except Exception as e:
+            print(f"Error al cargar usuarios: {str(e)}")
+            return False
+
+
+    def register(self, email: str, nombre: str, password: str) -> bool:
+        """Registra nuevo usuario"""
+        return self.user_manager.register(email, nombre, password)
+    
+    def logout(self):
+        """Cierra sesión"""
+        self.current_user = None
 
 
 
@@ -329,35 +356,30 @@ def main():
     carpeta_csv_areas = "datos/csv/areas"
     carpeta_csv_catalogos = "datos/csv/catalogos"
 
-    # Paso 1: Cargar las revistas desde JSON
     revistas = Revista.cargar_revistas_desde_json(json_path)
     if not revistas:
         print("No se cargaron revistas.")
         return
 
     print(f"\nTotal de revistas cargadas: {len(revistas)}\n")
-    for revista in revistas[:2]:  # Muestra un par como ejemplo
+    for revista in revistas[:2]:  
         print(revista)
         print("\n" + "-" * 50 + "\n")
 
-    # Paso 2: Cargar títulos por área y por catálogo desde CSV
     titulos_por_area = Revista.cargar_titulos_por_area(carpeta_csv_areas)
     catalogos = Revista.cargar_titulos_por_catalogo(carpeta_csv_catalogos)
 
-    # Paso 3: Asignar catálogos y áreas a las revistas
     Revista.clasificar_revistas_por_catalogo(revistas, catalogos)
     Revista.clasificar_revistas_por_area(revistas, titulos_por_area)
 
-    # Paso 4: Imprimir resultados organizados
     print("\n" + "=" * 50)
     print("REVISTAS CON CATÁLOGO Y ÁREA ASIGNADOS")
     print("=" * 50 + "\n")
 
-    for revista in revistas[:10]:  # Cambia el rango si quieres ver más
+    for revista in revistas[:10]: 
         print(revista)
         print("-" * 50)
 
-    # Paso 5 (opcional): Mostrar resumen de áreas y catálogos
     print("\nResumen de áreas:")
     for area, titulos in titulos_por_area.items():
         print(f"{area}: {len(titulos)} títulos")
@@ -369,6 +391,17 @@ def main():
         print(f"{catalogo}: {len(titulos)} títulos")
         for titulo in list(titulos)[:3]:
             print(f"  - {titulo}")
+
+    print("\nUsuarios cargados:")
+    sistema = SistemaRevistas()
+    if sistema.cargar_usuarios_desde_csv("datos/csv/usuarios/usuarios.csv"):
+        print("Usuarios cargados correctamente:")
+        for correo, usuario in sistema.usuarios.items():
+            print(f" - {usuario.nombre_completo} ({correo})")
+    else:
+        print("No se pudieron cargar los usuarios.")
+
+    print(f"Intentando cargar usuarios desde: {os.path.abspath('datos/csv/usuarios/usuarios.csv')}")
 
 
 
