@@ -325,7 +325,7 @@ class SistemaRevistas:
 
 
 def main():
-    json_path = "datos/json/revistas_info_parte_1.json"
+    json_path = "datos/json/revistas_info_scimago.json"
     carpeta_csv_areas = "datos/csv/areas"
     carpeta_csv_catalogos = "datos/csv/catalogos"
 
