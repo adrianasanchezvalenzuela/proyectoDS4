@@ -8,12 +8,15 @@
     <div class="hero-unison p-5 rounded-3 mb-5">
         <div class="row align-items-center">
             <div class="col-lg-7">
+                <img src="{{ url_for('static', filename='img/logoSAMhorizontal.png') }}" 
+                    alt="Logo UNISON"
+                    style="max-width: 100px; opacity: 0.85; margin-bottom: 15px;">
                 <h1 class="display-4 fw-bold text-white">Repositorio de Revistas UNISON</h1>
                 <p class="lead text-light">Explora las mejores revistas científicas de la Universidad de Sonora</p>
-                <hr class="my-4 bg-light">
+                <hr class="my-4" style="border-top: 2px solid white;">
                 <p class="text-light">Accede a más de 1,200 revistas indexadas en los principales catálogos internacionales.</p>
-                <div class="d-flex flex-wrap gap-3">
-                    <a class="btn btn-dorado btn-lg px-4" href="/explora" role="button">
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn-dorado btn-lg px-4" href="/explora" role="button">
                         <i class="bi bi-search me-2"></i>Explorar
                     </a>
                     <a class="btn btn-outline-light btn-lg px-4" href="/busqueda" role="button">

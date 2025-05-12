@@ -320,12 +320,32 @@ class SistemaRevistas:
             if letra_inicial.isalpha():
                 revistas_por_letra[letra_inicial].append(revista)
         return dict(revistas_por_letra)
+    
+    def buscar_revistas(self, texto):
+        texto = texto.lower()
+        resultados = []
+
+        for revista in self.revistas:
+            # Protección ante atributos faltantes
+            titulo = getattr(revista, 'titulo', '').lower()
+            h_index = str(getattr(revista, 'h_index', ''))
+            catalogo = getattr(revista, 'catalogo', '').lower()
+            areas = [a.lower() for a in getattr(revista, 'areas', [])]
+
+            if (
+                texto in titulo
+                or texto in catalogo
+                or any(texto in area for area in areas)
+            ):
+                resultados.append(revista)
+
+        return resultados
 
 
 
 
 def main():
-    json_path = "datos/json/revistas_info_parte_1.json"
+    json_path = "datos/json/revistas_info_scimago.json"
     carpeta_csv_areas = "datos/csv/areas"
     carpeta_csv_catalogos = "datos/csv/catalogos"
 

@@ -82,18 +82,18 @@
                                             {% endfor %}
                                         </div>
                                     </td>
-
                                     <!-- Secciones -->
                                     <td class="text-center">
                                         <div class="d-flex flex-wrap justify-content-center gap-1">
                                             {% for area in revista.seccion.split(', ') %}
                                                 <a href="{{ url_for('area_detalles', area=area) }}"
                                                 class="badge bg-unison-subtle text-unison-emphasis py-1 px-2">
-                                                    {{ area }}
+                                                    {{ AREAS_NOMBRES.get(area, area) }}
                                                 </a>
                                             {% endfor %}
                                         </div>
                                     </td>
+
 
                                     <!-- Acciones -->
                                     <td class="text-center">
