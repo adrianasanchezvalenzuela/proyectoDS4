@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Favoritos</title>
+</head>
+<body>
+    <h1>Mis Favoritos</h1>
+    <a href="{{ url_for('home') }}">Volver al inicio</a>
+    
+    <ul>
+        {% for revista in favoritas %}
+            <li>
+                {{ revista.titulo }}
+                <a href="{{ url_for('eliminar_favorito', id_revista=revista.id) }}">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
