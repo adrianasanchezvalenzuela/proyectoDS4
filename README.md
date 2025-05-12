@@ -56,8 +56,19 @@ Esta parte del proyecto consiste en un scraper en python que permite extraer inf
 
 # Estructura del Proyecto
 
-- app.py: programa principal para extraer información de revistas desde scimago
-- scimago_scrapper.py: Funciones de scrapper para SCImago
+- scrapper: Carpeta principal 
+   - app.py: Programa principal para extraer información de revistas desde SCImago
+   - scimago_scrapper.py: Funciones de scrapper para SCImago
+
+- scrapper_extra: Carpeta de intento de web scrapping a Resurchify y SCImago (Extra)
+   - app.py: Programa principal para extraer información de ambas revistas
+   - resurchify_scrapper.py: Funciones de scrapper para Resurchify
+   - scimago_scrapper.py: Funciones de scrapper para SCImago
+
+- gestion_json: Carpeta para la manipulación de archivos json.
+   - contar_revistas.py: Programa que permite contar las revistas generadas en un archivo json
+   - unir_resultados.py: Permitre unir 2 o más archivos json.
+
 
 # Instrucciones para hacer funcionar el programa
 
