@@ -90,7 +90,7 @@ Esta parte del proyecto consiste en un scraper en python que permite extraer inf
 3. Ejemplo:
 
 
-   python app.py -a datos/json/revistas.json -p 0 -u 50 -o datos/json/revistas_info.json
+   python app.py -a ../datos/json/revistas.json -p 0 -u 50 -o ../datos/json/revistas_info.json
 
    Esto procesará las primeras 50 revistas del archivo y guardará la información en revistas_info.json.
 
@@ -107,7 +107,7 @@ Instalar las dependencias:
 pip install requests
 pip install beautifulsoup4
 pip install unidecode
-<<<<<<< HEAD
+
 
 # Herramientas de asistencia
 
