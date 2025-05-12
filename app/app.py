@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from funciones import SistemaRevistas  
 import os 
+import json
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY') or 'tu-clave-secreta-aqui'
 
+
+
 # Inicializa el sistema
 sistema = SistemaRevistas()
-sistema.cargar_datos("datos/json/revistas_info_parte_1.json", "datos/csv/areas", "datos/csv/catalogos")
+sistema.cargar_datos("datos/json/revistas_info_scimago.json", "datos/csv/areas", "datos/csv/catalogos")
 
 AREAS_NOMBRES = {
     'ciencias_bio': 'Ciencias Biológicas',
