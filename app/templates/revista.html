@@ -57,8 +57,22 @@
             <!-- Descripción -->
             <div class="card mb-4 border-0 bg-light">
                 <div class="card-body">
-                    <h5 class="card-title text-unison"><i class="bi bi-text-paragraph me-2"></i>Descripción</h5>
-                    <p>{{ revista.descripcion or 'No hay descripción disponible' }}</p>
+                    <h5 class="card-title text-unison"><i class="bi bi-text-paragraph me-2"></i>Widget</h5>
+                    {% if revista.descripcion %}
+                        {% if revista.descripcion.startswith('http') %}
+                            <div class="text-center">
+                                <img src="{{ revista.descripcion }}" 
+                                    alt="Gráfico de la revista" 
+                                    class="img-fluid rounded"
+                                    onerror="this.onerror=null; this.parentElement.innerHTML='<p class=\'text-muted\'>No se pudo cargar la imagen</p>'">
+                                <p class="mt-2 small text-muted">Gráfico de la revista</p>
+                            </div>
+                        {% else %}
+                            <p>{{ revista.descripcion }}</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted">No hay descripción disponible</p>
+                    {% endif %}
                 </div>
             </div>
 

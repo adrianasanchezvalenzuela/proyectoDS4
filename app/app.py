@@ -105,14 +105,8 @@ def revista(id_revista):
         flash('Revista no encontrada', 'danger')
         return redirect(url_for('index'))
     
-    es_favorito = False
-    if 'email' in session and sistema.current_user:
-        es_favorito = id_revista in sistema.current_user.favoritos
-    
     return render_template('revista.html',
                         revista=revista,
-                        es_favorito=es_favorito,
-                        logged_in='email' in session,
                         AREAS_NOMBRES=AREAS_NOMBRES)
 
 @app.route('/catalogos')
