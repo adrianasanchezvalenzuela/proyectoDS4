@@ -11,15 +11,11 @@ Esta parte del proyecto permite procesar y leer archivos CSV para así generar u
 # Funcionalidades del programa
 
 - Lee todos los archivos CSV del directorio datos/csv/areas y datos/csv/catalogos.
-
 - Construye un diccionario donde cada llave es el título de una revista, y el valor es un subdiccionario con:
    - Las áreas a las que pertenece (ej. CIENCIAS_EXA, INGENIERÍA)
    - Los catálogos en los que aparece (ej. JCR, SCOPUS)
-
 - El resultado se guarda como un archivo JSON llamado revistas.json dentro del directorio datos/json.
-
 - Si el archivo ya existe, no se sobrescribirá.
-
 - El JSON resultante puede ser leído y reutilizado por las siguientes partes del proyecto (scraper y sitio web).
 
 # Instrucciones para ejecutar
@@ -130,7 +126,11 @@ Esta parte del proyecto proporciona una interfaz web interactiva para consultar 
 - Inicio: Página de bienvenida 
 - Áreas: Muestra todas las áreas disponibles. Al hacer click en una, se desplegará una tabla con las revistas y su H-Index
 - Catálogos: Navegación por catálogo
-- Explorar 
+- Explorar: Tabla ordenada alfabéticamente por nombre de revista, con acceso rápido desde un abecedario superior.
+- Búsqueda: Buscador por texto completo que permite encontrar revistas por coincidencias en el nombre.
+- Créditos: Lista con integrantes del equipo y agradecimientos.
+- Login de usuarios: Acceso mediante nombre de usuario y contraseña.
+
 
 # Estructura del Proyecto
 
@@ -158,9 +158,9 @@ Esta parte del proyecto proporciona una interfaz web interactiva para consultar 
 
 # Instrucciones para hacer funcionar el programa
 
-1. Se ingresa a la carpeta "app" con "cd app" en la terminal
+1. Se ingresa a la carpeta "app" con "cd app" en la terminal (comprobar de estar en la carpeta "proyectoDS4")
 
-2. Ejecuta el servidor Flask con "python app.py". A la par procurar que la carpeta datos se encuentre dentro de app
+2. Ejecuta el servidor Flask con "python app.py".
 
 3. En la terminal se reflejará el navegador parecido a "http://127.0.0.1:5000/"
 
