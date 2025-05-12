@@ -1,63 +1,205 @@
 {% extends "base.html" %}
 
-{% block title %}Créditos del Desarrollo{% endblock %}
+{% block title %}Créditos del Desarrollo | UNISON{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
-    <h1 class="mb-4 text-unison">Equipo de Desarrollo</h1>
-    
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-unison mb-0" id="creditosTable">
-                    <thead>
-                        <tr>
-                            <th style="width: 120px;">Foto</th>
-                            <th>Nombre</th>
-                            <th>Rol</th>
-                            <th>Contribución</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="{{ url_for('static', filename='img/team1.jpg') }}" 
-                                     alt="Miembro del equipo" 
-                                     class="team-photo rounded-circle">
-                            </td>
-                            <td class="fw-bold text-unison">Adriana Sánchez Valenzuela</td>
-                            <td>Desarrollador Frontend</td>
-                            <td>Diseño de interfaces, implementación CSS</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="{{ url_for('static', filename='img/team2.jpg') }}" 
-                                     alt="Miembro del equipo" 
-                                     class="team-photo rounded-circle">
-                            </td>
-                            <td class="fw-bold text-unison">Samara Acosta Ibarra</td>
-                            <td>Desarrollador Backend</td>
-                            <td>Lógica de negocio, integración de datos</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="{{ url_for('static', filename='img/team3.jpg') }}" 
-                                     alt="Miembro del equipo" 
-                                     class="team-photo rounded-circle">
-                            </td>
-                            <td class="fw-bold text-unison">Marco Antonio Quintanar Maldonado</td>
-                            <td>Diseñador UX/UI</td>
-                            <td>Experiencia de usuario, prototipado</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Nuevo encabezado con logo y título lado a lado -->
+            <div class="d-flex align-items-center mb-4 p-3 rounded" style="background-color: #005f87;">
+                <div class="flex-shrink-0">
+                    <img src="{{ url_for('static', filename='img/logoSAM.png') }}" 
+                         alt="Logo UNISON" 
+                         style="height: 70px;" 
+                         class="me-3">
+                </div>
+                <div class="flex-grow-1">
+                    <h2 class="text-unison-white mb-0">Equipo de Desarrollo</h2>
+                    <p class="text-unison-white mb-0">Repositorio Académico de Revistas Científicas</p>
+                </div>
+            </div>
+
+            <!-- Tarjeta del equipo (se mantiene igual) -->
+            <div class="card shadow-sm border-unison-blue mb-4">
+                <div class="card-header bg-unison-blue text-white">
+                    <h3 class="mb-0"><i class="bi bi-people-fill me-2"></i>Integrantes del Equipo</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-unison-blue text-white">
+                                <tr>
+                                    <th style="width: 100px"></th>
+                                    <th>Integrante</th>
+                                    <th>Rol Principal</th>
+                                    <th>Contribuciones Clave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Adriana -->
+                                <tr>
+                                    <td>
+                                        <img src="{{ url_for('static', filename='img/team1.jpg') }}" 
+                                             alt="Adriana Sánchez" 
+                                             class="img-thumbnail rounded-circle shadow-sm"
+                                             style="width: 80px; height: 80px; object-fit: cover;">
+                                    </td>
+                                    <td>
+                                        <h5 class="fw-bold text-unison-blue mb-1">Adriana Sánchez Valenzuela</h5>
+                                        <small class="text-muted">Ingeniería en Sistemas de Información</small>
+                                    </td>
+                                    <td class="text-nowrap">Arquitectura del Sistema</td>
+                                    <td>
+                                        <ul class="mb-0 small">
+                                            <li>Diseño e implementación de la estructura MVC</li>
+                                            <li>Desarrollo de la lógica principal (Flask)</li>
+                                            <li>Implementación del sistema de autenticación</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Samara -->
+                                <tr>
+                                    <td>
+                                        <img src="{{ url_for('static', filename='img/team2.jpg') }}" 
+                                             alt="Samara Acosta" 
+                                             class="img-thumbnail rounded-circle shadow-sm"
+                                             style="width: 80px; height: 80px; object-fit: cover;">
+                                    </td>
+                                    <td>
+                                        <h5 class="fw-bold text-unison-blue mb-1">Samara Acosta Ibarra</h5>
+                                        <small class="text-muted">Ingeniería en Sistemas de Información</small>
+                                    </td>
+                                    <td class="text-nowrap">Gestión de Datos</td>
+                                    <td>
+                                        <ul class="mb-0 small">
+                                            <li>Extracción y transformación de datos CSV</li>
+                                            <li>Normalización de bases de datos</li>
+                                            <li>Implementación de filtros por áreas</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Marco -->
+                                <tr>
+                                    <td>
+                                        <img src="{{ url_for('static', filename='img/team3.jpg') }}" 
+                                             alt="Marco Quintanar" 
+                                             class="img-thumbnail rounded-circle shadow-sm"
+                                             style="width: 80px; height: 80px; object-fit: cover;">
+                                    </td>
+                                    <td>
+                                        <h5 class="fw-bold text-unison-blue mb-1">Marco Antonio Quintanar Maldonado</h5>
+                                        <small class="text-muted">Ingeniería en Sistemas de Información</small>
+                                    </td>
+                                    <td class="text-nowrap">Adquisición de Datos</td>
+                                    <td>
+                                        <ul class="mb-0 small">
+                                            <li>Web scraping de revistas científicas</li>
+                                            <li>Extracción de métricas académicas</li>
+                                            <li>Procesamiento de datos de Scimago</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección del profesor -->
+            <div class="card border-unison-blue shadow-sm mb-4">
+                <div class="card-header bg-unison-blue text-white">
+                    <h4 class="mb-0"><i class="bi bi-person-badge me-2"></i>Asesor del Proyecto</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img src="{{ url_for('static', filename='img/profesor.jpg') }}" 
+                                 alt="Dr. Federico Cirett" 
+                                 class="rounded-circle border border-unison-blue" 
+                                 style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="flex-grow-1 ms-4">
+                            <h3 class="text-unison-blue mb-1">Dr. Federico Miguel Cirett Galán</h3>
+                            <p class="text-muted mb-2">Profesor Investigador - Universidad de Sonora</p>
+                            <p class="mb-0">Asesor académico y director técnico del proyecto, proporcionando orientación en el diseño del sistema y metodologías de desarrollo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metodología y agradecimientos simplificados -->
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-unison-blue shadow-sm">
+                        <div class="card-header bg-unison-blue text-white">
+                            <h4 class="mb-0"><i class="bi bi-kanban me-2"></i>Metodología</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Desarrollo ágil con:</p>
+                            <ul class="mb-0">
+                                <li>Sprints semanales</li>
+                                <li>Control de versiones con Git</li>
+                                <li>Reuniones de seguimiento</li>
+                                <li>Documentación constante</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-unison-blue shadow-sm">
+                        <div class="card-header bg-unison-blue text-white">
+                            <h4 class="mb-0"><i class="bi bi-hand-thumbs-up me-2"></i>Agradecimientos</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Agradecemos a:</p>
+                            <ul class="mb-0">
+                                <li>Universidad de Sonora</li>
+                                <li>Scimago Journal Rank</li>
+                                <li>CONACYT</li>
+                                <li>Nuestras familias</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer institucional -->
+            <div class="text-center mt-4 pt-3 border-top border-unison-blue">
+                <img src="{{ url_for('static', filename='img/logo_unison.png') }}" 
+                     alt="Logo UNISON" 
+                     style="height: 50px;" 
+                     class="mb-2">
+                <p class="text-muted small">Proyecto desarrollado para la materia de Desarrollo de Sistemas de Información<br>
+                Departamento de Ingeniería - Universidad de Sonora © 2025</p>
             </div>
         </div>
     </div>
-    
-    <div class="acknowledgement mt-5 p-4 rounded-3">
-        <h4 class="text-unison mb-3">Agradecimientos</h4>
-        <p class="mb-0">Este proyecto fue desarrollado como parte del programa de Ingeniería en Software de la Universidad de Sonora, bajo la supervisión de.</p>
-    </div>
 </div>
+
+<style>
+    .bg-unison-blue {
+        background-color: #005f87 !important;
+    }
+    .text-unison-white {
+        color: #ffffff !important;
+    }
+    .border-unison-blue {
+        border-color: #005f87 !important;
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 95, 135, 0.1) !important;
+    }
+    
+    .card {
+        transition: transform 0.2s ease;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+    }
+</style>
 {% endblock %}
