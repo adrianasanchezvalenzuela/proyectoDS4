@@ -68,15 +68,3 @@ Instalar las dependencias:
 pip install requests
 pip install beautifulsoup4
 pip install unidecode
-
-# Herramientas de asistencia
-
-Durante el desarrollo de este scrapper, utilicé ChatGPT como asistente para mejorar un poco la flexibilidad del programa.
-
-**Normalización de caracteres especiales**
-
-ChatGPT recomendó emplear la librería unidecode para convertir títulos de revistas con acentos, diéresis u otros signos diacríticos en su equivalente ASCII. Esto asegura que las URL y las búsquedas en SCImago no fallen por diferencias en codificación.
-
-**Parámetros por línea de comandos**
-
-Para permitir la ejecución en paralelo y con distintos rangos de datos, ChatGPT sugirió utilizar el módulo estándar argparse. Esto fue de mucha ayuda pues nos permitió correr el codigo de manera paralela con los demas integrantes del equipo haciendo que el tiempo que se empleó en la busqueda de revistas sea mucho menor.
